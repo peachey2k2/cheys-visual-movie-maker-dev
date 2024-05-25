@@ -3,15 +3,27 @@
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/godot.hpp>
+#include <godot_cpp/classes/editor_plugin_registration.hpp>
+
+#include "visual_movie_player.h"
+#include "visual_movie.h"
+#include "vmm_tab.h"
+#include "plugin.h"
 
 using namespace godot;
 
-void initialize_gdextension_types(ModuleInitializationLevel p_level)
-{
-	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
-		return;
+void initialize_gdextension_types(ModuleInitializationLevel p_level) {
+	switch (p_level) {
+	case MODULE_INITIALIZATION_LEVEL_SCENE:
+		ClassDB::register_class<VisualMoviePlayer>();
+		ClassDB::register_class<VisualMovie>();
+		ClassDB::register_class<VisualMovieTab>();
+		break;
+	case MODULE_INITIALIZATION_LEVEL_EDITOR:
+		ClassDB::register_class<CVMMPlugin>();
+		EditorPlugins::add_by_type<CVMMPlugin>();
+		break;
 	}
-	//ClassDB::register_class<YourClass>();
 }
 
 void uninitialize_gdextension_types(ModuleInitializationLevel p_level) {
@@ -20,11 +32,9 @@ void uninitialize_gdextension_types(ModuleInitializationLevel p_level) {
 	}
 }
 
-extern "C"
-{
+extern "C" {
 	// Initialization
-	GDExtensionBool GDE_EXPORT example_library_init(GDExtensionInterfaceGetProcAddress p_get_proc_address, GDExtensionClassLibraryPtr p_library, GDExtensionInitialization *r_initialization)
-	{
+	GDExtensionBool GDE_EXPORT cvmm_init(GDExtensionInterfaceGetProcAddress p_get_proc_address, GDExtensionClassLibraryPtr p_library, GDExtensionInitialization *r_initialization) {
 		GDExtensionBinding::InitObject init_obj(p_get_proc_address, p_library, r_initialization);
 		init_obj.register_initializer(initialize_gdextension_types);
 		init_obj.register_terminator(uninitialize_gdextension_types);
