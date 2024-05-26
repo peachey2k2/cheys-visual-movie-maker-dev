@@ -13,6 +13,14 @@ def validate_parent_dir(key, val, env):
 
 libname = "cvmm"
 projectdir = "demo"
+dirs = [
+    "src/",
+    "src/editor/",
+]
+sources = []
+
+for dir in dirs:
+    sources += Glob(dir + "*.cpp")
 
 localEnv = Environment(tools=["default"], PLATFORM="")
 
@@ -51,7 +59,7 @@ env.Alias("compiledb", compilation_db)
 env = SConscript("godot-cpp/SConstruct", {"env": env, "customs": customs})
 
 env.Append(CPPPATH=["src/"])
-sources = Glob("src/*.cpp")
+# sources = Glob("src/*.cpp")
 
 file = "{}{}{}".format(libname, env["suffix"], env["SHLIBSUFFIX"])
 
