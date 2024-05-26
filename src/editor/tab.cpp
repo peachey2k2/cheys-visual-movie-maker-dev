@@ -1,25 +1,29 @@
 #include "tab.h"
 
+#define OUTER_MARGIN 3
+
 using namespace godot;
 
 void VisualMovieTab::_bind_methods() {
 }
 
 void VisualMovieTab::initialize_children() {
+    MarginContainer *margin_container = memnew(MarginContainer);
+    margin_container->set_anchors_and_offsets_preset(Control::PRESET_FULL_RECT);
+    margin_container->begin_bulk_theme_override();
+    margin_container->add_theme_constant_override("margin_left", OUTER_MARGIN);
+    margin_container->add_theme_constant_override("margin_top", OUTER_MARGIN);
+    margin_container->add_theme_constant_override("margin_right", OUTER_MARGIN);
+    margin_container->add_theme_constant_override("margin_bottom", OUTER_MARGIN);
+    margin_container->end_bulk_theme_override();
+    add_child(margin_container);
+
     VBoxContainer *outer_container = memnew(VBoxContainer);
     outer_container->set_anchors_and_offsets_preset(Control::PRESET_FULL_RECT);
-    add_child(outer_container);
+    margin_container->add_child(outer_container);
 
-    toolbar = memnew(HFlowContainer);
-    toolbar->set_custom_minimum_size(Size2(0, 32));
+    toolbar = memnew(VMTToolbar);
     outer_container->add_child(toolbar);
-
-    Button *button1 = memnew(Button);
-    Button *button2 = memnew(Button);
-    Button *button3 = memnew(Button);
-    toolbar->add_child(button1);
-    toolbar->add_child(button2);
-    toolbar->add_child(button3);
 
     VSplitContainer *vsplit_container = memnew(VSplitContainer);
     vsplit_container->set_h_size_flags(SizeFlags::SIZE_EXPAND_FILL);

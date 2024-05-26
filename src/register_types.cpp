@@ -9,6 +9,7 @@
 #include "visual_movie.h"
 #include "editor/plugin.h"
 #include "editor/tab.h"
+#include "editor/toolbar.h"
 
 using namespace godot;
 
@@ -18,6 +19,7 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level) {
 		ClassDB::register_class<VisualMoviePlayer>();
 		ClassDB::register_class<VisualMovie>();
 		ClassDB::register_internal_class<VisualMovieTab>();
+		ClassDB::register_internal_class<VMTToolbar>();
 		break;
 	case MODULE_INITIALIZATION_LEVEL_EDITOR:
 		ClassDB::register_internal_class<CVMMPlugin>();
