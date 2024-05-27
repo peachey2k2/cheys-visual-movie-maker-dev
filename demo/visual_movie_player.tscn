@@ -12,3 +12,53 @@ offset_right = 230.0
 offset_bottom = 163.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+offset_top = 11.0
+offset_right = 8.0
+offset_bottom = 19.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Button2" type="Button" parent="CanvasLayer"]
+offset_left = 115.0
+offset_top = 125.0
+offset_right = 123.0
+offset_bottom = 133.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Button3" type="Button" parent="CanvasLayer"]
+offset_left = 29.0
+offset_top = 118.0
+offset_right = 37.0
+offset_bottom = 126.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Button4" type="Button" parent="CanvasLayer"]
+offset_left = 47.0
+offset_top = 46.0
+offset_right = 55.0
+offset_bottom = 54.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MenuButton" type="MenuButton" parent="CanvasLayer"]
+offset_left = 84.0
+offset_top = 67.0
+offset_right = 122.0
+offset_bottom = 98.0
+text = "test"
+item_count = 2
+popup/item_0/text = "ewgweg"
+popup/item_1/text = "gerge"
+popup/item_1/id = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+custom_minimum_size = Vector2(24.24, 0)
+offset_left = 132.0
+offset_right = 156.24
+offset_bottom = 31.0

@@ -25,39 +25,34 @@ void VisualMovieTab::initialize_children() {
     toolbar = memnew(VMTToolbar);
     outer_container->add_child(toolbar);
 
-    VSplitContainer *vsplit_container = memnew(VSplitContainer);
-    vsplit_container->set_h_size_flags(SizeFlags::SIZE_EXPAND_FILL);
-    vsplit_container->set_v_size_flags(SizeFlags::SIZE_EXPAND_FILL);
-    outer_container->add_child(vsplit_container);
+    VSplitContainer *vsc = memnew(VSplitContainer);
+    vsc->set_h_size_flags(SizeFlags::SIZE_EXPAND_FILL);
+    vsc->set_v_size_flags(SizeFlags::SIZE_EXPAND_FILL);
+    outer_container->add_child(vsc);
 
-    HSplitContainer *hsplit_container = memnew(HSplitContainer);
-    hsplit_container->set_h_size_flags(SizeFlags::SIZE_EXPAND_FILL);
-    hsplit_container->set_v_size_flags(SizeFlags::SIZE_EXPAND_FILL);
-    vsplit_container->add_child(hsplit_container);
+    HSplitContainer *hsc1 = memnew(HSplitContainer);
+    hsc1->set_h_size_flags(SizeFlags::SIZE_EXPAND_FILL);
+    hsc1->set_v_size_flags(SizeFlags::SIZE_EXPAND_FILL);
+    vsc->add_child(hsc1);
 
-    script_list = memnew(VBoxContainer);
-    script_list->set_h_size_flags(SizeFlags::SIZE_EXPAND_FILL);
-    script_list->set_v_size_flags(SizeFlags::SIZE_EXPAND_FILL);
-    hsplit_container->add_child(script_list);
-    ItemList *list1 = memnew(ItemList);
-    script_list->add_child(list1);
+    HSplitContainer *hsc2 = memnew(HSplitContainer);
+    hsc2->set_h_size_flags(SizeFlags::SIZE_EXPAND_FILL);
+    hsc2->set_v_size_flags(SizeFlags::SIZE_EXPAND_FILL);
+    hsc1->add_child(hsc2);
 
-    filter_list = memnew(VBoxContainer);
-    filter_list->set_h_size_flags(SizeFlags::SIZE_EXPAND_FILL);
-    filter_list->set_v_size_flags(SizeFlags::SIZE_EXPAND_FILL);
-    hsplit_container->add_child(filter_list);
-    ItemList *list2 = memnew(ItemList);
-    filter_list->add_child(list2);
+    script_list = memnew(VMTScriptList);
+    hsc2->add_child(script_list);
 
-    preview = memnew(VBoxContainer);
-    preview->set_h_size_flags(SizeFlags::SIZE_EXPAND_FILL);
-    preview->set_v_size_flags(SizeFlags::SIZE_EXPAND_FILL);
-    hsplit_container->add_child(preview);
+    filter_list = memnew(VMTFilterList);
+    hsc2->add_child(filter_list);
+
+    preview = memnew(VMTPreview);
+    hsc1->add_child(preview);
 
     timeline = memnew(ScrollContainer);
     timeline->set_h_size_flags(SizeFlags::SIZE_EXPAND_FILL);
     timeline->set_v_size_flags(SizeFlags::SIZE_EXPAND_FILL);
-    vsplit_container->add_child(timeline);
+    vsc->add_child(timeline);
 }
 
 VisualMovieTab::VisualMovieTab() {
@@ -70,3 +65,24 @@ VisualMovieTab::VisualMovieTab() {
 
 VisualMovieTab::~VisualMovieTab() {
 }
+
+VMTToolbar *VisualMovieTab::get_toolbar() {
+    return toolbar;
+}
+
+VMTScriptList *VisualMovieTab::get_script_list() {
+    return script_list;
+}
+
+VMTFilterList *VisualMovieTab::get_filter_list() {
+    return filter_list;
+}
+
+VMTPreview *VisualMovieTab::get_preview() {
+    return preview;
+}
+
+ScrollContainer *VisualMovieTab::get_timeline() {
+    return timeline;
+}
+

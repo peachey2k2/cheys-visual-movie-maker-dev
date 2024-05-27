@@ -10,6 +10,8 @@
 #include "editor/plugin.h"
 #include "editor/tab.h"
 #include "editor/toolbar.h"
+#include "editor/lists.h"
+#include "editor/preview.h"
 
 using namespace godot;
 
@@ -20,6 +22,10 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level) {
 		ClassDB::register_class<VisualMovie>();
 		ClassDB::register_internal_class<VisualMovieTab>();
 		ClassDB::register_internal_class<VMTToolbar>();
+		ClassDB::register_internal_class<VMTList>();
+		ClassDB::register_internal_class<VMTScriptList>();
+		ClassDB::register_internal_class<VMTFilterList>();
+		ClassDB::register_internal_class<VMTPreview>();
 		break;
 	case MODULE_INITIALIZATION_LEVEL_EDITOR:
 		ClassDB::register_internal_class<CVMMPlugin>();
