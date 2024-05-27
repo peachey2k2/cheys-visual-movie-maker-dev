@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="godot cpp template"
+run/main_scene="res://visual_movie_player.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 

@@ -11,6 +11,8 @@
 #include <godot_cpp/classes/item_list.hpp>
 
 #include "editor/toolbar.h"
+#include "editor/lists.h"
+#include "editor/preview.h"
 
 namespace godot {
 
@@ -30,11 +32,12 @@ class VisualMovieTab : public Control {
                     // Button *button3;
                 // VSplitContainer *vsplit_container;
                     // HSplitContainer *hsplit_container;
-                        VBoxContainer *script_list;
-                            // ItemList *list;
-                        VBoxContainer *filter_list;
-                            // ItemList *list;
-                        VBoxContainer *preview;
+                        // HSplitContainer *hsplit_container;
+                            VMTScriptList *script_list;
+                                // ItemList *list;
+                            VMTFilterList *filter_list;
+                                // ItemList *list;
+                        VMTPreview *preview;
                     ScrollContainer *timeline;
 
 
@@ -44,6 +47,12 @@ class VisualMovieTab : public Control {
     public:
         VisualMovieTab();
         ~VisualMovieTab();
+
+        VMTToolbar *get_toolbar();
+        VMTScriptList *get_script_list();
+        VMTFilterList *get_filter_list();
+        VMTPreview *get_preview();
+        ScrollContainer *get_timeline();
 
 };
 

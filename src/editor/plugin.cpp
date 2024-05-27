@@ -41,4 +41,5 @@ Ref<Texture2D> CVMMPlugin::_get_plugin_icon() const {
 
 void CVMMPlugin::_make_visible(bool p_visible) {
     plugin_tab->set_visible(p_visible);
+    plugin_tab->get_preview()->get_canvas_layer()->set_visible(p_visible);
 }
