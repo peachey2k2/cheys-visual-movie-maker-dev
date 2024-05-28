@@ -35,7 +35,6 @@ size_flags_horizontal = 3
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer"]
-clip_contents = true
 offset_top = 68.0
 offset_right = 512.0
 offset_bottom = 580.0
@@ -55,3 +54,8 @@ color = Color(0, 0, 0, 1)
 [node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/SubViewportContainer/SubViewport"]
 texture = ExtResource("1_n1ti4")
 centered = false
+
+[node name="PopupMenu" type="PopupMenu" parent="."]
+visible = true
+item_count = 1
+item_0/text = "test"
