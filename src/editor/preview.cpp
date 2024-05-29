@@ -59,7 +59,6 @@ VMTPreview::~VMTPreview() {
 
 void VMTPreview::update_svc() {
     svc->set_position(dummy->get_global_position());
-    // UtilityFunctions::print(canvas_layer->is_visible());
     svc->set_scale(Vector2(1, 1) * dummy->get_size().x/svc->get_size().x);
 }
 

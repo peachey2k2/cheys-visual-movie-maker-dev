@@ -10,6 +10,7 @@
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/v_box_container.hpp>
 #include <godot_cpp/classes/h_slider.hpp>
+#include <godot_cpp/classes/scene_tree.hpp>
 
 #include <godot_cpp/variant/utility_functions.hpp>
 

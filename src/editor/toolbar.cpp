@@ -1,59 +1,118 @@
 #include "editor/toolbar.h"
 
-enum {
-    SEPERATOR = -1,
-    DEFAULT = 0,
-    CHECKABLE_CHECKBOX = 1,
-    CHECKABLE_RADIO = 2,
-    SUBMENU = 3,
-};
-
 using namespace godot;
 
 void VMTToolbar::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("menu_item_selected", "item_index", "menu_name"), &VMTToolbar::menu_item_selected);
 }
 
 VMTToolbar::VMTToolbar() {
     set_custom_minimum_size(Size2(0, 24));
 
-    add_child(create_button("File", {
-        {"New Movie", DEFAULT},
-        {"Open", DEFAULT},
-        {"Recent", DEFAULT},
-        {"", SEPERATOR},
-        {"Save", DEFAULT},
-        {"Save As", DEFAULT},
-        {"Export", DEFAULT},
-        {"", SEPERATOR},
-        {"Settings", DEFAULT},
-    }));
+    const std::vector<std::pair<String, std::vector<MenuItem>>> toolbar_items = {
+        {"File", {
+            MENU_ITEM("New Movie", DEFAULT),
+            MENU_ITEM("Open", DEFAULT),
+            MENU_ITEM("Recent", DEFAULT),
+            MENU_ITEM("", SEPERATOR),
+            MENU_ITEM("Save", DEFAULT),
+            MENU_ITEM("Save As", DEFAULT),
+            MENU_ITEM("Export", DEFAULT),
+            MENU_ITEM("", SEPERATOR),
+            MENU_ITEM("Settings", DEFAULT),
+        }},
+        {"Edit", {
+            MENU_ITEM("Undo", DEFAULT),
+            MENU_ITEM("Redo", DEFAULT),
+            MENU_ITEM("", SEPERATOR),
+            MENU_ITEM("Cut", DEFAULT),
+            MENU_ITEM("Copy", DEFAULT),
+            MENU_ITEM("Paste", DEFAULT),
+            MENU_ITEM("", SEPERATOR),
+            MENU_ITEM("Select All", DEFAULT),
+        }},
+        {"View", {
+            MENU_ITEM("Zoom In", DEFAULT),
+            MENU_ITEM("Zoom Out", DEFAULT),
+            MENU_ITEM("", SEPERATOR),
+            MENU_ITEM("Toggle Fullscreen", DEFAULT),
+        }},
+        {"Help", {
+            MENU_ITEM("About", DEFAULT),
+        }},
+    };
+
+    for (const auto [label, items] : toolbar_items) {
+        PopupMenu *popup = create_button(label, items);
+        popup->connect("id_pressed", Callable(this, "menu_item_selected"));
+        add_child(popup);
+    }
 }
 
 VMTToolbar::~VMTToolbar() {
 }
 
-MenuButton* VMTToolbar::create_button(const String &text, const std::vector<std::pair<String, int>> &items) {
-    MenuButton *button = memnew(MenuButton);
-    button->set_custom_minimum_size(Size2(0, 24));
-    button->set_text(text);
-    for (const auto &item : items) {
-        switch (item.second) {
+PopupMenu* VMTToolbar::create_button(const String &menu_name, const std::vector<MenuItem> &items) {
+    PopupMenu *popup = memnew(PopupMenu);
+    popup->set_name(menu_name);
+    for (const auto [label, type, hash] : items) {
+        switch (type) {
             case SEPERATOR:
-                button->get_popup()->add_separator();
+                popup->add_separator(label, hash);
                 break;
             case DEFAULT:
-                button->get_popup()->add_item(item.first);
+                popup->add_item(label, hash);
                 break;
             case CHECKABLE_CHECKBOX:
-                button->get_popup()->add_check_item(item.first);
+                popup->add_check_item(label, hash);
                 break;
             case CHECKABLE_RADIO:
-                button->get_popup()->add_radio_check_item(item.first);
+                popup->add_radio_check_item(label, hash);
                 break;
             case SUBMENU:
-                button->get_popup()->add_submenu_item(item.first, "");
+                popup->add_submenu_item(label, "", hash);
                 break;
         }
     }
-    return button;
+    return popup;
 }
+
+void VMTToolbar::menu_item_selected(const uint item_id) {
+    switch (item_id) {
+        case "New Movie"_hash:
+            break;
+        case "Open"_hash:
+            break;
+        case "Recent"_hash:
+            break;
+        case "Save"_hash:
+            break;
+        case "Save As"_hash:
+            break;
+        case "Export"_hash:
+            break;
+        case "Settings"_hash:
+            break;
+        case "Undo"_hash:
+            break;
+        case "Redo"_hash:
+            break;
+        case "Cut"_hash:
+            break;
+        case "Copy"_hash:
+            break;
+        case "Paste"_hash:
+            break;
+        case "Select All"_hash:
+            break;
+        case "Zoom In"_hash:
+            break;
+        case "Zoom Out"_hash:
+            break;
+        case "Toggle Fullscreen"_hash:
+            break;
+        case "About"_hash:
+            break;
+    }
+}
+

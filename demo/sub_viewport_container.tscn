@@ -35,9 +35,10 @@ size_flags_horizontal = 3
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer"]
-offset_top = 68.0
-offset_right = 512.0
-offset_bottom = 580.0
+offset_left = 35.0
+offset_top = 171.0
+offset_right = 547.0
+offset_bottom = 683.0
 
 [node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
 handle_input_locally = false
@@ -59,3 +60,6 @@ centered = false
 visible = true
 item_count = 1
 item_0/text = "test"
+
+[node name="Window" type="Window" parent="."]
+position = Vector2i(295, 125)
