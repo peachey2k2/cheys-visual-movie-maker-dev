@@ -4,10 +4,14 @@
 
 using namespace godot;
 
+VisualMovieTab *VisualMovieTab::singleton = nullptr;
+
 void VisualMovieTab::_bind_methods() {
 }
 
 void VisualMovieTab::initialize_children() {
+    VisualMovieTab::singleton = this;
+
     MarginContainer *margin_container = memnew(MarginContainer);
     margin_container->set_anchors_and_offsets_preset(Control::PRESET_FULL_RECT);
     margin_container->begin_bulk_theme_override();
@@ -53,6 +57,9 @@ void VisualMovieTab::initialize_children() {
     timeline->set_h_size_flags(SizeFlags::SIZE_EXPAND_FILL);
     timeline->set_v_size_flags(SizeFlags::SIZE_EXPAND_FILL);
     vsc->add_child(timeline);
+
+    settings_popup = memnew(VMTSettingsPopup);
+    add_child(settings_popup);
 }
 
 VisualMovieTab::VisualMovieTab() {
@@ -64,25 +71,5 @@ VisualMovieTab::VisualMovieTab() {
 }
 
 VisualMovieTab::~VisualMovieTab() {
-}
-
-VMTToolbar *VisualMovieTab::get_toolbar() {
-    return toolbar;
-}
-
-VMTScriptList *VisualMovieTab::get_script_list() {
-    return script_list;
-}
-
-VMTFilterList *VisualMovieTab::get_filter_list() {
-    return filter_list;
-}
-
-VMTPreview *VisualMovieTab::get_preview() {
-    return preview;
-}
-
-ScrollContainer *VisualMovieTab::get_timeline() {
-    return timeline;
 }
 

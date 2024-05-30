@@ -1,9 +1,11 @@
 #include "editor/toolbar.h"
 
+#include "editor/tab.h"
+
 using namespace godot;
 
 void VMTToolbar::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("menu_item_selected", "item_index", "menu_name"), &VMTToolbar::menu_item_selected);
+    ClassDB::bind_method(D_METHOD("menu_item_selected", "item_id"), &VMTToolbar::menu_item_selected);
 }
 
 VMTToolbar::VMTToolbar() {
@@ -92,6 +94,7 @@ void VMTToolbar::menu_item_selected(const uint item_id) {
         case "Export"_hash:
             break;
         case "Settings"_hash:
+            VisualMovieTab::get_singleton()->get_settings_popup()->popup_centered();
             break;
         case "Undo"_hash:
             break;

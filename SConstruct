@@ -16,6 +16,7 @@ projectdir = "demo"
 dirs = [
     "src/",
     "src/editor/",
+    "src/popups/",
 ]
 sources = []
 
