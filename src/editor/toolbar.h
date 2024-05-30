@@ -12,7 +12,7 @@ constexpr unsigned int operator "" _hash(const char* str, size_t length) {
     for(size_t i = 0; i < length; ++i) {
         hash = 31 * hash + str[i];
     }
-    return hash;
+    return hash & 0x7FFFFFFF;
 }
 
 #define MENU_ITEM(m_name, m_type) MenuItem{m_name, m_type, m_name##_hash}
@@ -37,8 +37,6 @@ class VMTToolbar : public MenuBar {
     };
 
     private:
-        void initialize_children();
-
         PopupMenu* create_button(const String &menu_name, const std::vector<MenuItem> &items);
         void menu_item_selected(const uint item_id);
 

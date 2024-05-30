@@ -12,6 +12,7 @@
 #include "editor/toolbar.h"
 #include "editor/lists.h"
 #include "editor/preview.h"
+#include "popups/settings.h"
 
 using namespace godot;
 
@@ -20,16 +21,20 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level) {
 	case MODULE_INITIALIZATION_LEVEL_SCENE:
 		ClassDB::register_class<VisualMoviePlayer>();
 		ClassDB::register_class<VisualMovie>();
+		break;
+	case MODULE_INITIALIZATION_LEVEL_EDITOR:
+		// stuff related to editor tab plugin
+		ClassDB::register_internal_class<CVMMPlugin>();
+		EditorPlugins::add_by_type<CVMMPlugin>();
 		ClassDB::register_internal_class<VisualMovieTab>();
 		ClassDB::register_internal_class<VMTToolbar>();
 		ClassDB::register_internal_class<VMTList>();
 		ClassDB::register_internal_class<VMTScriptList>();
 		ClassDB::register_internal_class<VMTFilterList>();
 		ClassDB::register_internal_class<VMTPreview>();
-		break;
-	case MODULE_INITIALIZATION_LEVEL_EDITOR:
-		ClassDB::register_internal_class<CVMMPlugin>();
-		EditorPlugins::add_by_type<CVMMPlugin>();
+
+		// popups for the tab plugin
+		ClassDB::register_internal_class<VMTSettingsPopup>();
 		break;
 	}
 }

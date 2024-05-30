@@ -62,4 +62,39 @@ item_count = 1
 item_0/text = "test"
 
 [node name="Window" type="Window" parent="."]
-position = Vector2i(295, 125)
+position = Vector2i(295, 36)
+size = Vector2i(500, 500)
+
+[node name="TabContainer" type="TabContainer" parent="Window"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+
+[node name="Control" type="VBoxContainer" parent="Window/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Window/TabContainer/Control"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Window/TabContainer/Control/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "segsdgsfgdfgdfhdfhdf"
+
+[node name="CheckBox" type="CheckBox" parent="Window/TabContainer/Control/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control2" type="Control" parent="Window/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Control3" type="Control" parent="Window/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2

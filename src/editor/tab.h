@@ -13,6 +13,7 @@
 #include "editor/toolbar.h"
 #include "editor/lists.h"
 #include "editor/preview.h"
+#include "popups/settings.h"
 
 namespace godot {
 
@@ -22,8 +23,11 @@ class VisualMovieTab : public Control {
     private:
         void initialize_children();
 
+        static VisualMovieTab *singleton;
+
         // All the internal nodes. Indents are used to show the hierarchy.
         // Kepp in mind that not every node is a member field, so they're commented out.
+
         // MarginContainer *margin_container;
             // VBoxContainer *vbox_container;
                 VMTToolbar *toolbar;
@@ -34,11 +38,10 @@ class VisualMovieTab : public Control {
                     // HSplitContainer *hsplit_container;
                         // HSplitContainer *hsplit_container;
                             VMTScriptList *script_list;
-                                // ItemList *list;
                             VMTFilterList *filter_list;
-                                // ItemList *list;
                         VMTPreview *preview;
                     ScrollContainer *timeline;
+        VMTSettingsPopup *settings_popup;
 
 
     protected:
@@ -48,11 +51,14 @@ class VisualMovieTab : public Control {
         VisualMovieTab();
         ~VisualMovieTab();
 
-        VMTToolbar *get_toolbar();
-        VMTScriptList *get_script_list();
-        VMTFilterList *get_filter_list();
-        VMTPreview *get_preview();
-        ScrollContainer *get_timeline();
+        static VisualMovieTab *get_singleton() { return singleton; };
+
+        VMTToolbar *get_toolbar() { return toolbar; }
+        VMTScriptList *get_script_list() { return script_list; }
+        VMTFilterList *get_filter_list() { return filter_list; }
+        VMTPreview *get_preview() { return preview; }
+        ScrollContainer *get_timeline() { return timeline; }
+        VMTSettingsPopup *get_settings_popup() { return settings_popup; }
 
 };
 

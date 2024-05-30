@@ -42,4 +42,9 @@ Ref<Texture2D> CVMMPlugin::_get_plugin_icon() const {
 void CVMMPlugin::_make_visible(bool p_visible) {
     plugin_tab->set_visible(p_visible);
     plugin_tab->get_preview()->get_canvas_layer()->set_visible(p_visible);
+    editor->get_base_control()->get_tree()->connect(
+        "process_frame",
+        Callable(plugin_tab->get_preview(), "update_svc"),
+        Object::CONNECT_ONE_SHOT + Object::CONNECT_DEFERRED
+    );
 }
