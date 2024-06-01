@@ -20,10 +20,18 @@ namespace godot {
 class VisualMovieTab : public Control {
     GDCLASS(VisualMovieTab, Control);
 
+    typedef struct {
+        String name;
+        String path;
+    } Movie;
+
     private:
         void initialize_children();
 
         static VisualMovieTab *singleton;
+        Movie movie;
+
+        void open_movie();
 
         // All the internal nodes. Indents are used to show the hierarchy.
         // Kepp in mind that not every node is a member field, so they're commented out.
@@ -31,9 +39,6 @@ class VisualMovieTab : public Control {
         // MarginContainer *margin_container;
             // VBoxContainer *vbox_container;
                 VMTToolbar *toolbar;
-                    // Button *button1;
-                    // Button *button2;
-                    // Button *button3;
                 // VSplitContainer *vsplit_container;
                     // HSplitContainer *hsplit_container;
                         // HSplitContainer *hsplit_container;
@@ -52,6 +57,7 @@ class VisualMovieTab : public Control {
         ~VisualMovieTab();
 
         static VisualMovieTab *get_singleton() { return singleton; };
+        Movie *get_movie() { return &movie; }
 
         VMTToolbar *get_toolbar() { return toolbar; }
         VMTScriptList *get_script_list() { return script_list; }

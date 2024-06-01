@@ -60,6 +60,8 @@ void VisualMovieTab::initialize_children() {
 
     settings_popup = memnew(VMTSettingsPopup);
     add_child(settings_popup);
+
+    open_movie(); // temporary
 }
 
 VisualMovieTab::VisualMovieTab() {
@@ -71,5 +73,9 @@ VisualMovieTab::VisualMovieTab() {
 }
 
 VisualMovieTab::~VisualMovieTab() {
+}
+
+void VisualMovieTab::open_movie() {
+    movie = Movie{"test", "user://cvmm/test/"};
 }
 
