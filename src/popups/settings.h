@@ -14,11 +14,14 @@
 #include <godot_cpp/classes/scroll_container.hpp>
 #include <godot_cpp/classes/panel.hpp>
 #include <godot_cpp/classes/scene_tree.hpp>
+#include <godot_cpp/classes/config_file.hpp>
+#include <godot_cpp/classes/file_access.hpp>
 
+#include <map>
 
 #define CATEGORY(m_name)                                                        \
     ScrollContainer *m_name##_scroll = memnew(ScrollContainer);                 \
-    m_name##_scroll->set_name(#m_name);                                         \
+    m_name##_scroll->set_name(String(#m_name).capitalize());                                         \
     tab_container->add_child(m_name##_scroll);                                  \
     VBoxContainer *m_name##_vbox = memnew(VBoxContainer);                       \
     m_name##_vbox->set_h_size_flags(Control::SIZE_EXPAND_FILL);                 \
@@ -39,11 +42,25 @@ class VMTSettingsPopup : public Window {
         S_COLOR,
         S_ENUM,
     };
+
+    typedef struct {
+        int type;
+        Variant value;
+        Variant def;
+        Control *node;
+    } Setting;
+
+    typedef struct {
+        Variant prev;
+        Variant curr;
+    } SettingChange;
     
     private:
-        void add_setting(const String p_name, const int p_type, const Variant p_default);
-
         TabContainer *tab_container;
+
+        void add_setting(const String p_name, const int p_type, const Variant p_default);
+        void define_settings();
+        void load_settings();
     
     protected:
         static void _bind_methods();
@@ -51,9 +68,15 @@ class VMTSettingsPopup : public Window {
     public:
         VMTSettingsPopup();
         ~VMTSettingsPopup();
+
+        std::map<String, Setting> settings;
+        std::map<String, SettingChange> settings_pending = {};
     
-        void define_settings();
-        void setting_changed(const Variant p_value, const String p_name);
+        void initialize_settings();
+        void setting_edited(const Variant p_value, const String p_name);
+        void save_settings();
+        void apply_settings();
+        void close_popup();
 };
 
 }
