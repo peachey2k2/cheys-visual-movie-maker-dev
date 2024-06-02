@@ -35,6 +35,7 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level) {
 
 		// popups for the tab plugin
 		ClassDB::register_internal_class<VMTSettingsPopup>();
+		ClassDB::register_internal_class<VMTVector2Field>();
 		break;
 	}
 }

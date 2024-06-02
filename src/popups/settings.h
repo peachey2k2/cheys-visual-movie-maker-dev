@@ -79,4 +79,31 @@ class VMTSettingsPopup : public Window {
         void close_popup();
 };
 
+class VMTVector2Field : public HBoxContainer {
+    GDCLASS(VMTVector2Field, HBoxContainer);
+
+    private:
+        Label *label;
+        SpinBox *x_field;
+        SpinBox *y_field;
+
+    protected:
+        static void _bind_methods();
+
+    public:
+        VMTVector2Field();
+        ~VMTVector2Field();
+
+        void _on_value_changed(const float p_value);
+
+        void set_value(const Vector2 p_value);
+        Vector2 get_value();
+        void set_min(const Vector2 p_min);
+        void set_max(const Vector2 p_max);
+        void set_step(const Vector2 p_step);
+};
+
 }
+
+
+
