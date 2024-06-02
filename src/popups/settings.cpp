@@ -107,9 +107,7 @@ void VMTSettingsPopup::add_setting(const String p_name, const int p_type, const 
     setting->add_child(label);
     label->set_h_size_flags(Control::SIZE_EXPAND_FILL);
 
-    if (p_type != S_VECTOR2) {
-        settings[full_name] = {p_type, p_default, p_default};
-    }
+    settings[full_name] = {p_type, p_default, p_default};
 
     switch (p_type) {
         case S_BOOLEAN: {
@@ -154,30 +152,12 @@ void VMTSettingsPopup::add_setting(const String p_name, const int p_type, const 
             break;
         }
         case S_VECTOR2: {
-            HBoxContainer *hbox = memnew(HBoxContainer);
-            setting->add_child(hbox);
-            hbox->set_h_size_flags(Control::SIZE_EXPAND_FILL);
-
-            SpinBox *spinbox_x = memnew(SpinBox);
-            spinbox_x->set_min(0);
-            spinbox_x->set_max(100);
-            spinbox_x->set_value(p_default);
-            hbox->add_child(spinbox_x);
-            spinbox_x->set_h_size_flags(Control::SIZE_EXPAND_FILL);
-
-            SpinBox *spinbox_y = memnew(SpinBox);
-            spinbox_y->set_min(0);
-            spinbox_y->set_max(100);
-            spinbox_y->set_value(p_default);
-            hbox->add_child(spinbox_y);
-            spinbox_y->set_h_size_flags(Control::SIZE_EXPAND_FILL);
-
-            spinbox_x->connect("value_changed", Callable(this, "setting_edited").bind(String(full_name) + "_x"));
-            spinbox_y->connect("value_changed", Callable(this, "setting_edited").bind(String(full_name) + "_y"));
-
-            Vector2 vec = p_default;
-            settings[full_name + "_x"] = {S_VECTOR2, vec.x, vec.x, spinbox_x};   
-            settings[full_name + "_y"] = {S_VECTOR2, vec.y, vec.y, spinbox_y};
+            VMTVector2Field *field = memnew(VMTVector2Field);
+            field->set_value(p_default);
+            setting->add_child(field);
+            field->set_h_size_flags(Control::SIZE_EXPAND_FILL);
+            Error err = field->connect("value_changed", Callable(this, "setting_edited").bind(full_name));
+            settings[full_name].node = field;
             break;
         }
         case S_COLOR: {
@@ -239,11 +219,7 @@ void VMTSettingsPopup::load_settings() {
                 break;
             }
             case S_VECTOR2: {
-                if (setting.ends_with("_x")) {
-                    static_cast<SpinBox*>(settings[setting].node)->set_value(value);
-                } else {
-                    static_cast<SpinBox*>(settings[setting].node)->set_value(value);
-                }
+                static_cast<VMTVector2Field*>(settings[setting].node)->set_value(value);
                 break;
             }
             case S_COLOR: {
@@ -297,6 +273,53 @@ void VMTSettingsPopup::close_popup() {
     hide();
 }
 
+void VMTVector2Field::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("_on_value_changed", "p_value"), &VMTVector2Field::_on_value_changed);
+    ADD_SIGNAL(MethodInfo("value_changed", PropertyInfo(Variant::VECTOR2, "value")));
+}
 
+void VMTVector2Field::_on_value_changed(const float p_value) {
+    emit_signal("value_changed", get_value());
+    UtilityFunctions::print("VMTVector2Field value changed: ", get_value());
+}
+
+VMTVector2Field::VMTVector2Field() {
+    x_field = memnew(SpinBox);
+    x_field->set_h_size_flags(Control::SIZE_EXPAND_FILL);
+    add_child(x_field);
+    x_field->connect("value_changed", Callable(this, "_on_value_changed"), CONNECT_DEFERRED);
+
+    y_field = memnew(SpinBox);
+    y_field->set_h_size_flags(Control::SIZE_EXPAND_FILL);
+    add_child(y_field);
+    y_field->connect("value_changed", Callable(this, "_on_value_changed"), CONNECT_DEFERRED);
+}
+
+VMTVector2Field::~VMTVector2Field() {
+}
+
+void VMTVector2Field::set_value(const Vector2 p_value) {
+    x_field->set_value(p_value.x);
+    y_field->set_value(p_value.y);
+}
+
+Vector2 VMTVector2Field::get_value() {
+    return Vector2(x_field->get_value(), y_field->get_value());
+}
+
+void VMTVector2Field::set_min(const Vector2 p_min) {
+    x_field->set_min(p_min.x);
+    y_field->set_min(p_min.y);
+}
+
+void VMTVector2Field::set_max(const Vector2 p_max) {
+    x_field->set_max(p_max.x);
+    y_field->set_max(p_max.y);
+}
+
+void VMTVector2Field::set_step(const Vector2 p_step) {
+    x_field->set_step(p_step.x);
+    y_field->set_step(p_step.y);
+}
 
 
