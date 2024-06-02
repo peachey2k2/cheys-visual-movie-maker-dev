@@ -4,7 +4,7 @@
 #include "editor/tab.h"
 
 #define OUTER_MARGIN 3
-#define SETTINGS_FILE VisualMovieTab::get_singleton()->get_movie()->path + "settings.cfg"
+#define SETTINGS_FILE VisualMovieTab::get_singleton()->get_movie()->path + "project.cvmm"
 
 using namespace godot;
 
@@ -73,19 +73,9 @@ VMTSettingsPopup::VMTSettingsPopup() {
 
 void VMTSettingsPopup::define_settings() {
     CATEGORY(general);
-    add_setting("test_boolean", S_BOOLEAN, false);
-    add_setting("test_bool_2", S_BOOLEAN, false);
-    add_setting("test_bool_3", S_BOOLEAN, false);
-    add_setting("test_bool_4", S_BOOLEAN, false);
-    add_setting("test_integer", S_INTEGER, 0);
-    add_setting("test_float", S_FLOAT, 0.0);
-    add_setting("test_string", S_STRING, "test");
-    add_setting("test_vector2", S_VECTOR2, Vector2(0, 0));
-    add_setting("test_color", S_COLOR, Color(0, 0, 0, 1));
-    add_setting("test_enum", S_ENUM, Array::make("Option 1", "Option 2", "Option 3"));
-    CATEGORY(advanced);
-    add_setting("test_boolean", S_BOOLEAN, false);
-    add_setting("test_integer", S_INTEGER, 0);
+    add_setting("project_name", S_STRING, "New Project");
+    add_setting("viewport_dimensions", S_VECTOR2, Vector2(1280, 720), Array::make(Vector2(1, 1), Vector2(4096, 4096), Vector2(1, 1)));
+    add_setting("background_color", S_COLOR, Color(0.5, 0.5, 0.5, 1));
 }
 
 VMTSettingsPopup::~VMTSettingsPopup() {
@@ -96,7 +86,7 @@ void VMTSettingsPopup::setting_edited(const Variant p_value, const String p_name
     settings_pending[p_name] = {settings[p_name].value, p_value};
 }
 
-void VMTSettingsPopup::add_setting(const String p_name, const int p_type, const Variant p_default) {
+void VMTSettingsPopup::add_setting(const String p_name, const int p_type, const Variant p_default, const Array p_extra) {
     ScrollContainer *tab = static_cast<ScrollContainer*>(tab_container->get_child(-1)->get_child(0));
     HBoxContainer *setting = memnew(HBoxContainer);
     tab->add_child(setting);
@@ -121,8 +111,9 @@ void VMTSettingsPopup::add_setting(const String p_name, const int p_type, const 
         }
         case S_INTEGER: {
             SpinBox *spinbox = memnew(SpinBox);
-            spinbox->set_min(0);
-            spinbox->set_max(100);
+            spinbox->set_min(p_extra[0]);
+            spinbox->set_max(p_extra[1]);
+            spinbox->set_step(1);
             spinbox->set_value(p_default);
             setting->add_child(spinbox);
             spinbox->set_h_size_flags(Control::SIZE_EXPAND_FILL);
@@ -132,9 +123,9 @@ void VMTSettingsPopup::add_setting(const String p_name, const int p_type, const 
         }
         case S_FLOAT: {
             SpinBox *spinbox = memnew(SpinBox);
-            spinbox->set_min(0);
-            spinbox->set_max(1);
-            spinbox->set_step(0.01);
+            spinbox->set_min(p_extra[0]);
+            spinbox->set_max(p_extra[1]);
+            spinbox->set_step(p_extra[2]);
             spinbox->set_value(p_default);
             setting->add_child(spinbox);
             spinbox->set_h_size_flags(Control::SIZE_EXPAND_FILL);
@@ -153,6 +144,9 @@ void VMTSettingsPopup::add_setting(const String p_name, const int p_type, const 
         }
         case S_VECTOR2: {
             VMTVector2Field *field = memnew(VMTVector2Field);
+            field->set_min(Vector2(p_extra[0]));
+            field->set_max(Vector2(p_extra[1]));
+            field->set_step(Vector2(p_extra[2]));
             field->set_value(p_default);
             setting->add_child(field);
             field->set_h_size_flags(Control::SIZE_EXPAND_FILL);
@@ -171,10 +165,10 @@ void VMTSettingsPopup::add_setting(const String p_name, const int p_type, const 
         }
         case S_ENUM: {
             OptionButton *optionbutton = memnew(OptionButton);
-            Array options = p_default;
-            for (int i = 0; i < options.size(); i++) {
-                optionbutton->add_item(options[i]);
+            for (int i = 0; i < p_extra.size(); i++) {
+                optionbutton->add_item(p_extra[i]);
             }
+            optionbutton->select(p_default);
             setting->add_child(optionbutton);
             optionbutton->set_h_size_flags(Control::SIZE_EXPAND_FILL);
             optionbutton->connect("item_selected", Callable(this, "setting_edited").bind(full_name));

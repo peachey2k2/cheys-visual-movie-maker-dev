@@ -58,7 +58,7 @@ class VMTSettingsPopup : public Window {
     private:
         TabContainer *tab_container;
 
-        void add_setting(const String p_name, const int p_type, const Variant p_default);
+        void add_setting(const String p_name, const int p_type, const Variant p_default, const Array p_extra = Array());
         void define_settings();
         void load_settings();
     
