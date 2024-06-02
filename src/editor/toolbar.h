@@ -38,7 +38,7 @@ class VMTToolbar : public MenuBar {
 
     private:
         PopupMenu* create_button(const String &menu_name, const std::vector<MenuItem> &items);
-        void menu_item_selected(const uint item_id);
+        void menu_item_selected(const unsigned int item_id);
 
     protected:
         static void _bind_methods();
