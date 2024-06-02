@@ -79,7 +79,7 @@ PopupMenu* VMTToolbar::create_button(const String &menu_name, const std::vector<
     return popup;
 }
 
-void VMTToolbar::menu_item_selected(const uint item_id) {
+void VMTToolbar::menu_item_selected(const unsigned int item_id) {
     switch (item_id) {
         case "New Movie"_hash:
             break;
