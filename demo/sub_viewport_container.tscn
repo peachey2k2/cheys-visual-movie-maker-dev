@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://c5b1652k3cuf"]
+[gd_scene load_steps=5 format=3 uid="uid://c5b1652k3cuf"]
 
 [ext_resource type="Script" path="res://color_rect.gd" id="1_1qrvq"]
 [ext_resource type="Texture2D" uid="uid://dbx66sovxd1" path="res://icon.svg" id="1_n1ti4"]
+[ext_resource type="Texture2D" uid="uid://bogbe644sfnmw" path="res://bin/assets/icon.png" id="3_6hgt0"]
+[ext_resource type="Script" path="res://button.gd" id="3_ktd4w"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -83,9 +85,47 @@ layout_mode = 2
 [node name="Label" type="Label" parent="Window/TabContainer/Control/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "segsdgsfgdfgdfhdfhdf"
+text = "segsdgsfgdfgdfhdfhdfdfhdfhdfhdfhdfhdfhdf"
+clip_text = true
+
+[node name="Button" type="Button" parent="Window/TabContainer/Control/HBoxContainer/Label"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -12.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_icons/icon = ExtResource("3_6hgt0")
+icon_alignment = 1
 
 [node name="CheckBox" type="CheckBox" parent="Window/TabContainer/Control/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="Window/TabContainer/Control"]
+layout_mode = 2
+script = ExtResource("3_ktd4w")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Window/TabContainer/Control"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Window/TabContainer/Control/HBoxContainer2"]
+custom_minimum_size = Vector2(50, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button2" type="Button" parent="Window/TabContainer/Control/HBoxContainer2"]
+custom_minimum_size = Vector2(50, 30)
+layout_mode = 2
+disabled = true
+
+[node name="Button3" type="Button" parent="Window/TabContainer/Control/HBoxContainer2"]
+custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 

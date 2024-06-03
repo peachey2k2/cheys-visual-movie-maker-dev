@@ -74,6 +74,8 @@ class VMTSettingsPopup : public Window {
     
         void initialize_settings();
         void setting_edited(const Variant p_value, const String p_name);
+        void reset_setting(const String p_name);
+        Variant get_setting(const String p_name);
         void save_settings();
         void apply_settings();
         void close_popup();

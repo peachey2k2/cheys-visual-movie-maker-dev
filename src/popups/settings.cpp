@@ -14,6 +14,7 @@ void VMTSettingsPopup::_bind_methods() {
     ClassDB::bind_method(D_METHOD("save_settings"), &VMTSettingsPopup::save_settings);
     ClassDB::bind_method(D_METHOD("apply_settings"), &VMTSettingsPopup::apply_settings);
     ClassDB::bind_method(D_METHOD("close_popup"), &VMTSettingsPopup::close_popup);
+    ClassDB::bind_method(D_METHOD("reset_setting", "p_name"), &VMTSettingsPopup::reset_setting);
 }
 
 VMTSettingsPopup::VMTSettingsPopup() {
@@ -73,17 +74,56 @@ VMTSettingsPopup::VMTSettingsPopup() {
 
 void VMTSettingsPopup::define_settings() {
     CATEGORY(general);
-    add_setting("project_name", S_STRING, "New Project");
+    add_setting("project_name", S_STRING, "");
     add_setting("viewport_dimensions", S_VECTOR2, Vector2(1280, 720), Array::make(Vector2(1, 1), Vector2(4096, 4096), Vector2(1, 1)));
-    add_setting("background_color", S_COLOR, Color(0.5, 0.5, 0.5, 1));
+    add_setting("background_color", S_COLOR, Color(0.3, 0.3, 0.3, 1));
 }
 
 VMTSettingsPopup::~VMTSettingsPopup() {
 }
 
 void VMTSettingsPopup::setting_edited(const Variant p_value, const String p_name) {
-    UtilityFunctions::print(p_name, ": ", settings[p_name].value, "->", p_value);
+    // UtilityFunctions::print(p_name, ": ", settings[p_name].value, "->", p_value);
     settings_pending[p_name] = {settings[p_name].value, p_value};
+    static_cast<Control*>(settings[p_name].node->get_parent()->get_child(0)->get_child(1))->set_visible(settings[p_name].def != p_value);
+}
+
+void VMTSettingsPopup::reset_setting(const String p_name) {
+    switch (settings[p_name].type) {
+        case S_BOOLEAN: {
+            static_cast<CheckBox*>(settings[p_name].node)->set_pressed(settings[p_name].def);
+            break;
+        }
+        case S_INTEGER: {
+            static_cast<SpinBox*>(settings[p_name].node)->set_value(settings[p_name].def);
+            break;
+        }
+        case S_FLOAT: {
+            static_cast<SpinBox*>(settings[p_name].node)->set_value(settings[p_name].def);
+            break;
+        }
+        case S_STRING: {
+            static_cast<LineEdit*>(settings[p_name].node)->set_text(settings[p_name].def);
+            break;
+        }
+        case S_VECTOR2: {
+            static_cast<VMTVector2Field*>(settings[p_name].node)->set_value(settings[p_name].def);
+            break;
+        }
+        case S_COLOR: {
+            static_cast<ColorPickerButton*>(settings[p_name].node)->set_pick_color(settings[p_name].def);
+            break;
+        }
+        case S_ENUM: {
+            static_cast<OptionButton*>(settings[p_name].node)->select(settings[p_name].def);
+            break;
+        }
+    }
+    setting_edited(settings[p_name].def, p_name);
+}
+
+Variant VMTSettingsPopup::get_setting(const String p_name) {
+    return settings[p_name].value;
 }
 
 void VMTSettingsPopup::add_setting(const String p_name, const int p_type, const Variant p_default, const Array p_extra) {
@@ -92,10 +132,23 @@ void VMTSettingsPopup::add_setting(const String p_name, const int p_type, const 
     tab->add_child(setting);
     String full_name = tab_container->get_child(-1)->get_name().to_snake_case() + String("/") + p_name;
 
+    HBoxContainer *left_side = memnew(HBoxContainer);
+    left_side->set_h_size_flags(Control::SIZE_EXPAND_FILL);
+    setting->add_child(left_side);
+
     Label *label = memnew(Label);
     label->set_text(p_name.capitalize());
-    setting->add_child(label);
+    left_side->add_child(label);
     label->set_h_size_flags(Control::SIZE_EXPAND_FILL);
+
+    Button *reset = memnew(Button);
+    reset->set_flat(true);
+    reset->add_theme_icon_override("icon", get_theme_icon("Reload", "EditorIcons"));
+    reset->set_icon_alignment(HorizontalAlignment::HORIZONTAL_ALIGNMENT_CENTER);
+    reset->set_anchors_preset(Control::PRESET_CENTER_RIGHT);
+    reset->connect("pressed", Callable(this, "reset_setting").bind(full_name)); //todo
+    reset->set_visible(false);
+    left_side->add_child(reset);
 
     settings[full_name] = {p_type, p_default, p_default};
 
@@ -194,7 +247,7 @@ void VMTSettingsPopup::load_settings() {
     for (auto [setting, data] : settings) {
         Variant value = config->get_value(setting.get_slice("/", 0), setting.get_slice("/", 1), data.def);
         settings[setting].value = value;
-        UtilityFunctions::print("Setting loaded: ", setting, " = ", value);
+        // UtilityFunctions::print("Setting loaded: ", setting, " = ", value);
         switch (settings[setting].type) {
             case S_BOOLEAN: {
                 static_cast<CheckBox*>(settings[setting].node)->set_pressed(value);
@@ -238,11 +291,11 @@ void VMTSettingsPopup::apply_settings() {
     ConfigFile *config = memnew(ConfigFile);
     Error err = config->load(SETTINGS_FILE);
     if (err != OK) {
-        UtilityFunctions::printerr("Failed to load settings file: ", SETTINGS_FILE);
+        // UtilityFunctions::printerr("Failed to load settings file: ", SETTINGS_FILE);
         Ref<FileAccess> file = FileAccess::open(SETTINGS_FILE, FileAccess::WRITE);
         err = file->get_open_error();
         if (err != OK) {
-            UtilityFunctions::printerr("Failed to create settings file: ", SETTINGS_FILE);
+            // UtilityFunctions::printerr("Failed to create settings file: ", SETTINGS_FILE);
         }
         return;
     }
@@ -255,7 +308,7 @@ void VMTSettingsPopup::apply_settings() {
         }
         settings[setting].value = change.curr;
         config->set_value(setting.get_slice("/", 0), setting.get_slice("/", 1), change.curr);
-        UtilityFunctions::print("Setting saved: ", setting, " = ", change.curr);
+        // UtilityFunctions::print("Setting saved: ", setting, " = ", change.curr);
         
     }
     config->save(SETTINGS_FILE);
@@ -274,7 +327,7 @@ void VMTVector2Field::_bind_methods() {
 
 void VMTVector2Field::_on_value_changed(const float p_value) {
     emit_signal("value_changed", get_value());
-    UtilityFunctions::print("VMTVector2Field value changed: ", get_value());
+    // UtilityFunctions::print("VMTVector2Field value changed: ", get_value());
 }
 
 VMTVector2Field::VMTVector2Field() {
