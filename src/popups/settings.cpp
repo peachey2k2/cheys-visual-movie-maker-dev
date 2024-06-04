@@ -4,13 +4,15 @@
 #include "editor/tab.h"
 
 #define OUTER_MARGIN 3
-#define SETTINGS_FILE VisualMovieTab::get_singleton()->get_movie()->path + "project.cvmm"
+#define SETTINGS_FILE (VisualMovieTab::get_singleton()->get_movie()->path + "project.cvmm")
 
 using namespace godot;
 
+// to get a setting, use get_setting("category/setting_name")
+// to get it with a signal, connect to "apply_settings" and use get_setting("category/setting_name")
 void VMTSettingsPopup::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("initialize_settings"), &VMTSettingsPopup::initialize_settings);
     ClassDB::bind_method(D_METHOD("setting_edited", "p_value", "p_name"), &VMTSettingsPopup::setting_edited);
+    ClassDB::bind_method(D_METHOD("initialize_settings"), &VMTSettingsPopup::initialize_settings);
     ClassDB::bind_method(D_METHOD("save_settings"), &VMTSettingsPopup::save_settings);
     ClassDB::bind_method(D_METHOD("apply_settings"), &VMTSettingsPopup::apply_settings);
     ClassDB::bind_method(D_METHOD("close_popup"), &VMTSettingsPopup::close_popup);
@@ -67,9 +69,6 @@ VMTSettingsPopup::VMTSettingsPopup() {
     cancel->set_text("Cancel");
     buttons->add_child(cancel);
     cancel->connect("pressed", Callable(this, "close_popup"));
-
-    // pro tip: if something doesn't work, just add a delay
-    connect("ready", Callable(this, "initialize_settings"), CONNECT_ONE_SHOT + CONNECT_DEFERRED);
 }
 
 void VMTSettingsPopup::define_settings() {
@@ -80,6 +79,10 @@ void VMTSettingsPopup::define_settings() {
 }
 
 VMTSettingsPopup::~VMTSettingsPopup() {
+}
+
+void VMTSettingsPopup::_popup() {
+    popup_centered();
 }
 
 void VMTSettingsPopup::setting_edited(const Variant p_value, const String p_name) {
@@ -146,7 +149,7 @@ void VMTSettingsPopup::add_setting(const String p_name, const int p_type, const 
     reset->add_theme_icon_override("icon", get_theme_icon("Reload", "EditorIcons"));
     reset->set_icon_alignment(HorizontalAlignment::HORIZONTAL_ALIGNMENT_CENTER);
     reset->set_anchors_preset(Control::PRESET_CENTER_RIGHT);
-    reset->connect("pressed", Callable(this, "reset_setting").bind(full_name)); //todo
+    reset->connect("pressed", Callable(this, "reset_setting").bind(full_name));
     reset->set_visible(false);
     left_side->add_child(reset);
 

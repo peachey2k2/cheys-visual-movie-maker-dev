@@ -9,10 +9,13 @@
 #include <godot_cpp/classes/h_split_container.hpp>
 #include <godot_cpp/classes/v_split_container.hpp>
 #include <godot_cpp/classes/item_list.hpp>
+#include <godot_cpp/classes/dir_access.hpp>
+#include <godot_cpp/classes/config_file.hpp>
 
 #include "editor/toolbar.h"
 #include "editor/lists.h"
 #include "editor/preview.h"
+#include "popups/new_movie.h"
 #include "popups/settings.h"
 
 namespace godot {
@@ -31,8 +34,6 @@ class VisualMovieTab : public Control {
         static VisualMovieTab *singleton;
         Movie movie;
 
-        void open_movie();
-
         // All the internal nodes. Indents are used to show the hierarchy.
         // Kepp in mind that not every node is a member field, so they're commented out.
 
@@ -46,6 +47,7 @@ class VisualMovieTab : public Control {
                             VMTFilterList *filter_list;
                         VMTPreview *preview;
                     ScrollContainer *timeline;
+        VMTNewMoviePopup *new_movie_popup;
         VMTSettingsPopup *settings_popup;
 
 
@@ -64,7 +66,12 @@ class VisualMovieTab : public Control {
         VMTFilterList *get_filter_list() { return filter_list; }
         VMTPreview *get_preview() { return preview; }
         ScrollContainer *get_timeline() { return timeline; }
+
+        VMTNewMoviePopup *get_new_movie_popup() { return new_movie_popup; }
         VMTSettingsPopup *get_settings_popup() { return settings_popup; }
+
+        void new_movie(const String name);
+        void open_movie(const String path);
 
 };
 

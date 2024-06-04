@@ -72,6 +72,7 @@ class VMTSettingsPopup : public Window {
         std::map<String, Setting> settings;
         std::map<String, SettingChange> settings_pending = {};
     
+        void _popup();
         void initialize_settings();
         void setting_edited(const Variant p_value, const String p_name);
         void reset_setting(const String p_name);

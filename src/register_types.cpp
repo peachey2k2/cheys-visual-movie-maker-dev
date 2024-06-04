@@ -12,6 +12,7 @@
 #include "editor/toolbar.h"
 #include "editor/lists.h"
 #include "editor/preview.h"
+#include "popups/new_movie.h"
 #include "popups/settings.h"
 
 using namespace godot;
@@ -34,6 +35,7 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level) {
 		ClassDB::register_internal_class<VMTPreview>();
 
 		// popups for the tab plugin
+		ClassDB::register_internal_class<VMTNewMoviePopup>();
 		ClassDB::register_internal_class<VMTSettingsPopup>();
 		ClassDB::register_internal_class<VMTVector2Field>();
 		break;
