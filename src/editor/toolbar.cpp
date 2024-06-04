@@ -82,6 +82,7 @@ PopupMenu* VMTToolbar::create_button(const String &menu_name, const std::vector<
 void VMTToolbar::menu_item_selected(const unsigned int item_id) {
     switch (item_id) {
         case "New Movie"_hash:
+            VisualMovieTab::get_singleton()->get_new_movie_popup()->_popup();
             break;
         case "Open"_hash:
             break;
@@ -94,7 +95,7 @@ void VMTToolbar::menu_item_selected(const unsigned int item_id) {
         case "Export"_hash:
             break;
         case "Settings"_hash:
-            VisualMovieTab::get_singleton()->get_settings_popup()->popup_centered();
+            VisualMovieTab::get_singleton()->get_settings_popup()->_popup();
             break;
         case "Undo"_hash:
             break;
