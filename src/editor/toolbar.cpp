@@ -49,6 +49,12 @@ VMTToolbar::VMTToolbar() {
         popup->connect("id_pressed", Callable(this, "menu_item_selected"));
         add_child(popup);
     }
+
+    label = memnew(Label);
+    label->set_text("No file opened");
+    label->set_horizontal_alignment(HorizontalAlignment::HORIZONTAL_ALIGNMENT_RIGHT);
+    label->set_anchors_and_offsets_preset(Control::PRESET_CENTER_RIGHT);
+    add_child(label);
 }
 
 VMTToolbar::~VMTToolbar() {
@@ -85,6 +91,7 @@ void VMTToolbar::menu_item_selected(const unsigned int item_id) {
             VisualMovieTab::get_singleton()->get_new_movie_popup()->_popup();
             break;
         case "Open"_hash:
+            VisualMovieTab::get_singleton()->get_open_movie_popup()->_popup();
             break;
         case "Recent"_hash:
             break;

@@ -140,6 +140,31 @@ custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="MenuBar" type="MenuBar" parent="Window/TabContainer/Control"]
+layout_mode = 2
+
+[node name="PopupMenu" type="PopupMenu" parent="Window/TabContainer/Control/MenuBar"]
+
+[node name="PopupMenu2" type="PopupMenu" parent="Window/TabContainer/Control/MenuBar"]
+auto_translate_mode = 1
+
+[node name="PopupMenu3" type="PopupMenu" parent="Window/TabContainer/Control/MenuBar"]
+auto_translate_mode = 1
+
+[node name="Label" type="Label" parent="Window/TabContainer/Control/MenuBar"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -47.0
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 0
+grow_vertical = 2
+text = "efweg"
+
 [node name="Control2" type="Control" parent="Window/TabContainer"]
 visible = false
 layout_mode = 2

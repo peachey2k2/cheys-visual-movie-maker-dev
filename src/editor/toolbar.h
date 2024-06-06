@@ -4,6 +4,7 @@
 #include <godot_cpp/classes/menu_button.hpp>
 #include <godot_cpp/classes/menu_bar.hpp>
 #include <godot_cpp/classes/popup_menu.hpp>
+#include <godot_cpp/classes/label.hpp>
 
 #include <godot_cpp/variant/utility_functions.hpp>
 
@@ -40,6 +41,8 @@ class VMTToolbar : public MenuBar {
         PopupMenu* create_button(const String &menu_name, const std::vector<MenuItem> &items);
         void menu_item_selected(const unsigned int item_id);
 
+        Label *label;
+
     protected:
         static void _bind_methods();
 
@@ -47,6 +50,7 @@ class VMTToolbar : public MenuBar {
         VMTToolbar();
         ~VMTToolbar();
 
+        void set_title(const String &name) { label->set_text(name); }
 };
 
 }

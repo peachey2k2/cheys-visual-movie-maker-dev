@@ -16,6 +16,7 @@
 #include "editor/lists.h"
 #include "editor/preview.h"
 #include "popups/new_movie.h"
+#include "popups/open.h"
 #include "popups/settings.h"
 
 namespace godot {
@@ -48,6 +49,7 @@ class VisualMovieTab : public Control {
                         VMTPreview *preview;
                     ScrollContainer *timeline;
         VMTNewMoviePopup *new_movie_popup;
+        VMTOpenMoviePopup *open_movie_popup;
         VMTSettingsPopup *settings_popup;
 
 
@@ -68,6 +70,7 @@ class VisualMovieTab : public Control {
         ScrollContainer *get_timeline() { return timeline; }
 
         VMTNewMoviePopup *get_new_movie_popup() { return new_movie_popup; }
+        VMTOpenMoviePopup *get_open_movie_popup() { return open_movie_popup; }
         VMTSettingsPopup *get_settings_popup() { return settings_popup; }
 
         void new_movie(const String name);
