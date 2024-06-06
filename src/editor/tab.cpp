@@ -61,6 +61,9 @@ void VisualMovieTab::initialize_children() {
     new_movie_popup = memnew(VMTNewMoviePopup);
     add_child(new_movie_popup);
 
+    open_movie_popup = memnew(VMTOpenMoviePopup);
+    add_child(open_movie_popup);
+
     settings_popup = memnew(VMTSettingsPopup);
     add_child(settings_popup);
 }
@@ -93,11 +96,13 @@ void VisualMovieTab::new_movie(const String name) {
 
 void VisualMovieTab::open_movie(const String path) {
     Ref<ConfigFile> config = memnew(ConfigFile);
-    Error err = config->load(path + String("project.cvmm"));
-    ERR_FAIL_COND_MSG(err != OK, "Failed to load project configuration file.");
+    String pathNormalized = path.trim_suffix("project.cvmm"); // normalize path
+    Error err = config->load(pathNormalized + String("project.cvmm"));
+    ERR_FAIL_COND_MSG(err != OK, "Failed to load project configuration file " + pathNormalized + "project.cvmm");
 
-    movie = Movie{config->get_value("general", "project_name"), path};
+    movie = Movie{config->get_value("general", "project_name"), pathNormalized};
     get_tree()->connect("process_frame", Callable(get_settings_popup(), "initialize_settings"), CONNECT_ONE_SHOT + CONNECT_DEFERRED);
 
+    toolbar->set_title(movie.name);
 }
 

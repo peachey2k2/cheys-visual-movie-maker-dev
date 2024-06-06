@@ -235,6 +235,9 @@ void VMTSettingsPopup::add_setting(const String p_name, const int p_type, const 
 }
 
 void VMTSettingsPopup::initialize_settings() {
+    for (auto i=tab_container->get_child_count()-1; i>=0; i--) {
+        tab_container->get_child(i)->queue_free();
+    }
     define_settings();
     load_settings();
     settings_pending = {};
