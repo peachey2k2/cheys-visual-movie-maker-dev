@@ -16,11 +16,12 @@ constexpr unsigned int operator "" _hash(const char* str, size_t length) {
     return hash & 0x7FFFFFFF;
 }
 
-#define MENU_ITEM(m_name, m_type) MenuItem{m_name, m_type, m_name##_hash}
+#define MENU_ITEM(m_name, m_type, m_flags) MenuItem{m_name, m_type, m_flags, m_name##_hash}
 
 typedef struct {
     const char* name;
     int type;
+    int flags;
     unsigned int hash;
 } MenuItem;
 
@@ -37,6 +38,10 @@ class VMTToolbar : public MenuBar {
         SUBMENU,
     };
 
+    enum {
+        REQUIRE_OPEN = 1 << 0,
+    };
+
     private:
         PopupMenu* create_button(const String &menu_name, const std::vector<MenuItem> &items);
         void menu_item_selected(const unsigned int item_id);
@@ -50,7 +55,8 @@ class VMTToolbar : public MenuBar {
         VMTToolbar();
         ~VMTToolbar();
 
-        void set_title(const String &name) { label->set_text(name); }
+        void _on_movie_opened(const String &name);
+        void _ready() override;
 };
 
 }

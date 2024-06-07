@@ -7,6 +7,7 @@ using namespace godot;
 VisualMovieTab *VisualMovieTab::singleton = nullptr;
 
 void VisualMovieTab::_bind_methods() {
+    ADD_SIGNAL(MethodInfo("movie_opened", PropertyInfo(Variant::STRING, "name")));
 }
 
 void VisualMovieTab::initialize_children() {
@@ -103,6 +104,6 @@ void VisualMovieTab::open_movie(const String path) {
     movie = Movie{config->get_value("general", "project_name"), pathNormalized};
     get_tree()->connect("process_frame", Callable(get_settings_popup(), "initialize_settings"), CONNECT_ONE_SHOT + CONNECT_DEFERRED);
 
-    toolbar->set_title(movie.name);
+    emit_signal("movie_opened", movie.name);
 }
 
