@@ -94,6 +94,7 @@ metadata/_tab_index = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Window/TabContainer/Control"]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Window/TabContainer/Control/HBoxContainer"]
 layout_mode = 2
@@ -166,6 +167,12 @@ offset_bottom = 11.5
 grow_horizontal = 0
 grow_vertical = 2
 text = "efweg"
+
+[node name="Button2" type="HBoxContainer" parent="Window/TabContainer/Control"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Window/TabContainer/Control/Button2"]
+layout_mode = 2
 
 [node name="Control2" type="Control" parent="Window/TabContainer"]
 visible = false
