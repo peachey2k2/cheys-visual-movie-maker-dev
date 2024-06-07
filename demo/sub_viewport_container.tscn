@@ -63,8 +63,10 @@ centered = false
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 visible = true
-item_count = 1
+item_count = 2
 item_0/text = "test"
+item_1/text = "dsfds"
+item_1/id = 1
 
 [node name="Window" type="Window" parent="."]
 position = Vector2i(295, 36)
@@ -174,9 +176,3 @@ metadata/_tab_index = 1
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
-
-[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
-position = Vector2i(0, 66)
-size = Vector2i(200, 80)
-visible = true
-min_size = Vector2i(200, 0)

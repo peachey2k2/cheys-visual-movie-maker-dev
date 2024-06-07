@@ -6,6 +6,11 @@ using namespace godot;
 
 void VMTToolbar::_bind_methods() {
     ClassDB::bind_method(D_METHOD("menu_item_selected", "item_id"), &VMTToolbar::menu_item_selected);
+    ClassDB::bind_method(D_METHOD("_on_movie_opened", "name"), &VMTToolbar::_on_movie_opened);
+}
+
+void VMTToolbar::_ready() {
+    VisualMovieTab::get_singleton()->connect("movie_opened", Callable(this, "_on_movie_opened"));
 }
 
 VMTToolbar::VMTToolbar() {
@@ -13,34 +18,34 @@ VMTToolbar::VMTToolbar() {
 
     const std::vector<std::pair<String, std::vector<MenuItem>>> toolbar_items = {
         {"File", {
-            MENU_ITEM("New Movie", DEFAULT),
-            MENU_ITEM("Open", DEFAULT),
-            MENU_ITEM("Recent", DEFAULT),
-            MENU_ITEM("", SEPERATOR),
-            MENU_ITEM("Save", DEFAULT),
-            MENU_ITEM("Save As", DEFAULT),
-            MENU_ITEM("Export", DEFAULT),
-            MENU_ITEM("", SEPERATOR),
-            MENU_ITEM("Settings", DEFAULT),
+            MENU_ITEM("New Movie", DEFAULT, 0),
+            MENU_ITEM("Open", DEFAULT, 0),
+            MENU_ITEM("Recent", DEFAULT, 0),
+            MENU_ITEM("", SEPERATOR, REQUIRE_OPEN),
+            MENU_ITEM("Save", DEFAULT, REQUIRE_OPEN),
+            MENU_ITEM("Save As", DEFAULT, REQUIRE_OPEN),
+            MENU_ITEM("Export", DEFAULT, REQUIRE_OPEN),
+            MENU_ITEM("", SEPERATOR, REQUIRE_OPEN),
+            MENU_ITEM("Settings", DEFAULT, REQUIRE_OPEN),
         }},
         {"Edit", {
-            MENU_ITEM("Undo", DEFAULT),
-            MENU_ITEM("Redo", DEFAULT),
-            MENU_ITEM("", SEPERATOR),
-            MENU_ITEM("Cut", DEFAULT),
-            MENU_ITEM("Copy", DEFAULT),
-            MENU_ITEM("Paste", DEFAULT),
-            MENU_ITEM("", SEPERATOR),
-            MENU_ITEM("Select All", DEFAULT),
+            MENU_ITEM("Undo", DEFAULT, REQUIRE_OPEN),
+            MENU_ITEM("Redo", DEFAULT, REQUIRE_OPEN),
+            MENU_ITEM("", SEPERATOR, REQUIRE_OPEN),
+            MENU_ITEM("Cut", DEFAULT, REQUIRE_OPEN),
+            MENU_ITEM("Copy", DEFAULT, REQUIRE_OPEN),
+            MENU_ITEM("Paste", DEFAULT, REQUIRE_OPEN),
+            MENU_ITEM("", SEPERATOR, REQUIRE_OPEN),
+            MENU_ITEM("Select All", DEFAULT, REQUIRE_OPEN),
         }},
         {"View", {
-            MENU_ITEM("Zoom In", DEFAULT),
-            MENU_ITEM("Zoom Out", DEFAULT),
-            MENU_ITEM("", SEPERATOR),
-            MENU_ITEM("Toggle Fullscreen", DEFAULT),
+            MENU_ITEM("Zoom In", DEFAULT, REQUIRE_OPEN),
+            MENU_ITEM("Zoom Out", DEFAULT, REQUIRE_OPEN),
+            MENU_ITEM("", SEPERATOR, 0),
+            MENU_ITEM("Toggle Fullscreen", DEFAULT, 0),
         }},
         {"Help", {
-            MENU_ITEM("About", DEFAULT),
+            MENU_ITEM("About", DEFAULT, 0),
         }},
     };
 
@@ -63,7 +68,7 @@ VMTToolbar::~VMTToolbar() {
 PopupMenu* VMTToolbar::create_button(const String &menu_name, const std::vector<MenuItem> &items) {
     PopupMenu *popup = memnew(PopupMenu);
     popup->set_name(menu_name);
-    for (const auto [label, type, hash] : items) {
+    for (const auto [label, type, flags, hash] : items) {
         switch (type) {
             case SEPERATOR:
                 popup->add_separator(label, hash);
@@ -80,6 +85,9 @@ PopupMenu* VMTToolbar::create_button(const String &menu_name, const std::vector<
             case SUBMENU:
                 popup->add_submenu_item(label, "", hash);
                 break;
+        }
+        if (flags & REQUIRE_OPEN) {
+            popup->set_item_disabled(-1, true);
         }
     }
     return popup;
@@ -124,6 +132,18 @@ void VMTToolbar::menu_item_selected(const unsigned int item_id) {
             break;
         case "About"_hash:
             break;
+    }
+}
+
+void VMTToolbar::_on_movie_opened(const String &name) {
+    label->set_text(name);
+    for (int i = 0; i < get_child_count(); i++) {
+        PopupMenu *popup = Object::cast_to<PopupMenu>(get_child(i));
+        if (popup) {
+            for (int j = 0; j < popup->get_item_count(); j++) {
+                popup->set_item_disabled(j, false);
+            }
+        }
     }
 }
 
