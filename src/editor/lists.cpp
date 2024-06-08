@@ -40,6 +40,7 @@ VMTList::VMTList() {
     search->set_h_size_flags(SIZE_EXPAND_FILL);
     LineEdit *searchbar = memnew(LineEdit);
     searchbar->set_h_size_flags(SIZE_EXPAND_FILL);
+    searchbar->add_theme_stylebox_override("normal", EditorInterface::get_singleton()->get_base_control()->get_theme_stylebox("panel", "Tree"));
     search->add_child(searchbar);
     ADD_BUTTON(search, Search, "Search");
     vbox->add_child(search);
@@ -47,6 +48,8 @@ VMTList::VMTList() {
     list = memnew(ItemList);
     list->set_h_size_flags(SIZE_EXPAND_FILL);
     list->set_v_size_flags(SIZE_EXPAND_FILL);
+    list->add_theme_stylebox_override("panel", EditorInterface::get_singleton()->get_base_control()->get_theme_stylebox("panel", "Tree"));
+    
     list->add_item("Item 1");
     list->add_item("Item 2");
     list->add_item("Item 3");

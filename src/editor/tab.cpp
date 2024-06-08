@@ -104,6 +104,6 @@ void VisualMovieTab::open_movie(const String path) {
     movie = Movie{config->get_value("general", "project_name"), pathNormalized};
     get_tree()->connect("process_frame", Callable(get_settings_popup(), "initialize_settings"), CONNECT_ONE_SHOT + CONNECT_DEFERRED);
 
-    emit_signal("movie_opened", movie.name);
+    // emit_signal("movie_opened", movie.name);
 }
 

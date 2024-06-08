@@ -1,9 +1,16 @@
 #include "editor/preview.h"
 
+#include <editor/tab.h>
+
 using namespace godot;
 
 void VMTPreview::_bind_methods() {
     ClassDB::bind_method(D_METHOD("update_svc"), &VMTPreview::update_svc);
+    ClassDB::bind_method(D_METHOD("_on_movie_opened", "name"), &VMTPreview::_on_movie_opened);
+}
+
+void VMTPreview::_ready() {
+    VisualMovieTab::get_singleton()->connect("movie_opened", Callable(this, "_on_movie_opened"));
 }
 
 VMTPreview::VMTPreview() {
@@ -16,18 +23,18 @@ VMTPreview::VMTPreview() {
     // vbc->set_v_size_flags(SIZE_EXPAND_FILL);
     add_child(vbc);
 
-    AspectRatioContainer *arc = memnew(AspectRatioContainer);
-    arc->set_h_size_flags(SIZE_EXPAND_FILL);
-    arc->set_v_size_flags(SIZE_EXPAND_FILL);
-    vbc->add_child(arc);
+    aspect_ratio_container = memnew(AspectRatioContainer);
+    aspect_ratio_container->set_h_size_flags(SIZE_EXPAND_FILL);
+    aspect_ratio_container->set_v_size_flags(SIZE_EXPAND_FILL);
+    vbc->add_child(aspect_ratio_container);
 
     // Normally this would be a SubViewport, but those don't work with autoscaling.
     // Using a dummy Control and moving the SubViewportContainer to the parent seemed
     // to do the trick. This is a workaround for now. (now meeans ever)
-    dummy = memnew(Control);
+    dummy = memnew(ColorRect);
     dummy->set_h_size_flags(SIZE_EXPAND_FILL);
     dummy->set_v_size_flags(SIZE_EXPAND_FILL);
-    arc->add_child(dummy);
+    aspect_ratio_container->add_child(dummy);
 
     // CanvasLayer might not be necessary, but keeps things cleaner.
     canvas_layer = memnew(CanvasLayer);
@@ -60,12 +67,14 @@ VMTPreview::~VMTPreview() {
 void VMTPreview::update_svc() {
     svc->set_position(dummy->get_global_position());
     svc->set_scale(Vector2(1, 1) * dummy->get_size().x/svc->get_size().x);
+    UtilityFunctions::print(dummy->get_size(), " ", dummy->get_position(), " ", aspect_ratio_container->get_ratio());
 }
 
-CanvasLayer *VMTPreview::get_canvas_layer() {
-    return canvas_layer;
-}
-
-SubViewport *VMTPreview::get_viewport() {
-    return sub_viewport;
+void VMTPreview::_on_movie_opened(const String &name) {
+    Vector2 dims = VisualMovieTab::get_singleton()->get_setting("general/viewport_dimensions");
+    sub_viewport->set_size(dims);
+    UtilityFunctions::print(dims);
+    aspect_ratio_container->set_ratio(dims.x/dims.y);
+    svc->set_size(dims);
+    update_svc();
 }

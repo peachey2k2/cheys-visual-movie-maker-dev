@@ -241,6 +241,7 @@ void VMTSettingsPopup::initialize_settings() {
     define_settings();
     load_settings();
     settings_pending = {};
+    VisualMovieTab::get_singleton()->emit_signal("movie_opened", VisualMovieTab::get_singleton()->get_movie()->name);
 }
 
 void VMTSettingsPopup::load_settings() {
