@@ -27,8 +27,9 @@ grow_vertical = 2
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="HSplitContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+ratio = 0.5
 
-[node name="Control" type="Control" parent="HSplitContainer/AspectRatioContainer"]
+[node name="Control" type="ColorRect" parent="HSplitContainer/AspectRatioContainer"]
 layout_mode = 2
 script = ExtResource("1_1qrvq")
 
@@ -42,11 +43,12 @@ size_flags_horizontal = 3
 [node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer"]
 offset_left = 35.0
 offset_top = 171.0
-offset_right = 547.0
+offset_right = 291.0
 offset_bottom = 683.0
 
 [node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
 handle_input_locally = false
+size = Vector2i(256, 512)
 render_target_update_mode = 4
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer/SubViewportContainer/SubViewport"]
@@ -71,6 +73,7 @@ item_1/id = 1
 [node name="Window" type="Window" parent="."]
 position = Vector2i(295, 36)
 size = Vector2i(500, 500)
+visible = false
 
 [node name="Panel" type="Panel" parent="Window"]
 anchors_preset = 15
@@ -172,6 +175,9 @@ text = "efweg"
 layout_mode = 2
 
 [node name="Button" type="Button" parent="Window/TabContainer/Control/Button2"]
+layout_mode = 2
+
+[node name="TextEdit" type="TextEdit" parent="Window/TabContainer/Control"]
 layout_mode = 2
 
 [node name="Control2" type="Control" parent="Window/TabContainer"]

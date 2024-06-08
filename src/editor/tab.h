@@ -73,6 +73,8 @@ class VisualMovieTab : public Control {
         VMTOpenMoviePopup *get_open_movie_popup() { return open_movie_popup; }
         VMTSettingsPopup *get_settings_popup() { return settings_popup; }
 
+        Variant get_setting(const String p_name) { return settings_popup->get_setting(p_name); }
+
         void new_movie(const String name);
         void open_movie(const String path);
 

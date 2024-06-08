@@ -9,6 +9,7 @@
 #include <godot_cpp/classes/button.hpp>
 #include <godot_cpp/classes/line_edit.hpp>
 #include <godot_cpp/classes/editor_interface.hpp>
+#include <godot_cpp/classes/style_box.hpp>
 
 #define ADD_BUTTON(m_parent, m_name, m_icon)                                                            \
     Button *m_name = memnew(Button);                                                                    \
