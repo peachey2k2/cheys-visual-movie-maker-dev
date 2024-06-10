@@ -14,8 +14,6 @@
 
 #include <godot_cpp/variant/utility_functions.hpp>
 
-#include <godot_cpp/classes/color_rect.hpp>
-
 namespace godot {
 
 class VMTPreview : public Panel {
@@ -23,12 +21,11 @@ class VMTPreview : public Panel {
 
     private:
         AspectRatioContainer *aspect_ratio_container;
-        ColorRect *dummy;
+        Control *dummy;
         SubViewport *sub_viewport;
         SubViewportContainer *svc;
         CanvasLayer *canvas_layer;
         HSlider *slider;
-
 
     protected:
         static void _bind_methods();
