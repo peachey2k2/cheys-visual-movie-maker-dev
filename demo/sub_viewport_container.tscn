@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://c5b1652k3cuf"]
+[gd_scene load_steps=7 format=3 uid="uid://c5b1652k3cuf"]
 
 [ext_resource type="Script" path="res://color_rect.gd" id="1_1qrvq"]
 [ext_resource type="Texture2D" uid="uid://dbx66sovxd1" path="res://icon.svg" id="1_n1ti4"]
+[ext_resource type="Script" path="res://test_button.gd" id="1_wt3kj"]
 [ext_resource type="Texture2D" uid="uid://bogbe644sfnmw" path="res://bin/assets/icon.png" id="3_6hgt0"]
 [ext_resource type="Script" path="res://button.gd" id="3_ktd4w"]
 
@@ -15,6 +16,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_wt3kj")
 
 [node name="HSplitContainer" type="HSplitContainer" parent="."]
 layout_mode = 1
@@ -73,7 +75,6 @@ item_1/id = 1
 [node name="Window" type="Window" parent="."]
 position = Vector2i(295, 36)
 size = Vector2i(500, 500)
-visible = false
 
 [node name="Panel" type="Panel" parent="Window"]
 anchors_preset = 15
@@ -97,7 +98,6 @@ metadata/_tab_index = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Window/TabContainer/Control"]
 layout_mode = 2
-size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Window/TabContainer/Control/HBoxContainer"]
 layout_mode = 2
@@ -135,16 +135,19 @@ layout_mode = 2
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 size_flags_horizontal = 3
+text = "gwegwe"
 
 [node name="Button2" type="Button" parent="Window/TabContainer/Control/HBoxContainer2"]
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 disabled = true
+text = "hee"
 
 [node name="Button3" type="Button" parent="Window/TabContainer/Control/HBoxContainer2"]
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 size_flags_horizontal = 3
+text = "gerge"
 
 [node name="MenuBar" type="MenuBar" parent="Window/TabContainer/Control"]
 layout_mode = 2
@@ -176,6 +179,8 @@ layout_mode = 2
 
 [node name="Button" type="Button" parent="Window/TabContainer/Control/Button2"]
 layout_mode = 2
+tooltip_text = "wefwegwregerg"
+text = "gerhe"
 
 [node name="TextEdit" type="TextEdit" parent="Window/TabContainer/Control"]
 layout_mode = 2

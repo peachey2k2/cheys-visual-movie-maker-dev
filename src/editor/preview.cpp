@@ -31,7 +31,7 @@ VMTPreview::VMTPreview() {
     // Normally this would be a SubViewport, but those don't work with autoscaling.
     // Using a dummy Control and moving the SubViewportContainer to the parent seemed
     // to do the trick. This is a workaround for now. (now meeans ever)
-    dummy = memnew(ColorRect);
+    dummy = memnew(Control);
     dummy->set_h_size_flags(SIZE_EXPAND_FILL);
     dummy->set_v_size_flags(SIZE_EXPAND_FILL);
     aspect_ratio_container->add_child(dummy);
@@ -67,14 +67,13 @@ VMTPreview::~VMTPreview() {
 void VMTPreview::update_svc() {
     svc->set_position(dummy->get_global_position());
     svc->set_scale(Vector2(1, 1) * dummy->get_size().x/svc->get_size().x);
-    UtilityFunctions::print(dummy->get_size(), " ", dummy->get_position(), " ", aspect_ratio_container->get_ratio());
 }
 
 void VMTPreview::_on_movie_opened(const String &name) {
     Vector2 dims = VisualMovieTab::get_singleton()->get_setting("general/viewport_dimensions");
     sub_viewport->set_size(dims);
-    UtilityFunctions::print(dims);
     aspect_ratio_container->set_ratio(dims.x/dims.y);
     svc->set_size(dims);
+    get_tree()->connect("process_frame", Callable(this, "update_svc"), CONNECT_ONE_SHOT + CONNECT_DEFERRED);
     update_svc();
 }
