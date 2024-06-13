@@ -12,6 +12,7 @@
 #include "editor/toolbar.h"
 #include "editor/lists.h"
 #include "editor/preview.h"
+#include "editor/timeline.h"
 #include "popups/new_movie.h"
 #include "popups/open.h"
 #include "popups/settings.h"
@@ -31,9 +32,10 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level) {
 		ClassDB::register_internal_class<VisualMovieTab>();
 		ClassDB::register_internal_class<VMTToolbar>();
 		ClassDB::register_internal_class<VMTList>();
-		ClassDB::register_internal_class<VMTScriptList>();
+		ClassDB::register_internal_class<VMTSceneList>();
 		ClassDB::register_internal_class<VMTFilterList>();
 		ClassDB::register_internal_class<VMTPreview>();
+		ClassDB::register_internal_class<VMTTimeline>();
 
 		// popups for the tab plugin
 		ClassDB::register_internal_class<VMTNewMoviePopup>();

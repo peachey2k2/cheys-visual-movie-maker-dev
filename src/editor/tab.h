@@ -15,6 +15,7 @@
 #include "editor/toolbar.h"
 #include "editor/lists.h"
 #include "editor/preview.h"
+#include "editor/timeline.h"
 #include "popups/new_movie.h"
 #include "popups/open.h"
 #include "popups/settings.h"
@@ -44,10 +45,10 @@ class VisualMovieTab : public Control {
                 // VSplitContainer *vsplit_container;
                     // HSplitContainer *hsplit_container;
                         // HSplitContainer *hsplit_container;
-                            VMTScriptList *script_list;
+                            VMTSceneList *script_list;
                             VMTFilterList *filter_list;
                         VMTPreview *preview;
-                    ScrollContainer *timeline;
+                    VMTTimeline *timeline;
         VMTNewMoviePopup *new_movie_popup;
         VMTOpenMoviePopup *open_movie_popup;
         VMTSettingsPopup *settings_popup;
@@ -64,10 +65,10 @@ class VisualMovieTab : public Control {
         Movie *get_movie() { return &movie; }
 
         VMTToolbar *get_toolbar() { return toolbar; }
-        VMTScriptList *get_script_list() { return script_list; }
+        VMTSceneList *get_script_list() { return script_list; }
         VMTFilterList *get_filter_list() { return filter_list; }
         VMTPreview *get_preview() { return preview; }
-        ScrollContainer *get_timeline() { return timeline; }
+        VMTTimeline *get_timeline() { return timeline; }
 
         VMTNewMoviePopup *get_new_movie_popup() { return new_movie_popup; }
         VMTOpenMoviePopup *get_open_movie_popup() { return open_movie_popup; }

@@ -11,6 +11,7 @@
 #include <godot_cpp/classes/v_box_container.hpp>
 #include <godot_cpp/classes/h_slider.hpp>
 #include <godot_cpp/classes/scene_tree.hpp>
+#include <godot_cpp/classes/h_flow_container.hpp>
 
 #include <godot_cpp/variant/utility_functions.hpp>
 
@@ -37,6 +38,7 @@ class VMTPreview : public Panel {
         void _ready() override;
 
         void update_svc();
+        void _update_svc();
         void _on_movie_opened(const String &name);
 
         CanvasLayer *get_canvas_layer() { return canvas_layer; }

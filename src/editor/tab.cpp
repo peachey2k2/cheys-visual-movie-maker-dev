@@ -45,7 +45,7 @@ void VisualMovieTab::initialize_children() {
     hsc2->set_v_size_flags(SizeFlags::SIZE_EXPAND_FILL);
     hsc1->add_child(hsc2);
 
-    script_list = memnew(VMTScriptList);
+    script_list = memnew(VMTSceneList);
     hsc2->add_child(script_list);
 
     filter_list = memnew(VMTFilterList);
@@ -54,7 +54,7 @@ void VisualMovieTab::initialize_children() {
     preview = memnew(VMTPreview);
     hsc1->add_child(preview);
 
-    timeline = memnew(ScrollContainer);
+    timeline = memnew(VMTTimeline);
     timeline->set_h_size_flags(SizeFlags::SIZE_EXPAND_FILL);
     timeline->set_v_size_flags(SizeFlags::SIZE_EXPAND_FILL);
     vsc->add_child(timeline);
