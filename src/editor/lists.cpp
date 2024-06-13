@@ -55,7 +55,8 @@ VMTList::VMTList() {
     searchbar->set_h_size_flags(SIZE_EXPAND_FILL);
     searchbar->add_theme_stylebox_override("normal", EditorInterface::get_singleton()->get_base_control()->get_theme_stylebox("panel", "Tree"));
     search->add_child(searchbar);
-    ADD_BUTTON(search, Search, "Search", "Search");
+    searchbar->set_right_icon(EditorInterface::get_singleton()->get_base_control()->get_theme_icon("Search", "EditorIcons"));
+    // ADD_BUTTON(search, Search, "Search", "Search");
     vbox->add_child(search);
 
     list = memnew(Tree);
@@ -104,18 +105,18 @@ void VMTList::update_files() {
 VMTList::~VMTList() {
 }
 
-void VMTScriptList::_bind_methods() {
+void VMTSceneList::_bind_methods() {
 }
 
-VMTScriptList::VMTScriptList() {
+VMTSceneList::VMTSceneList() {
     set_title("Scripts");
 }
 
-void VMTScriptList::_on_movie_opened(const String &name) {
+void VMTSceneList::_on_movie_opened(const String &name) {
     set_directory(VisualMovieTab::get_singleton()->get_movie()->path + "/scripts");
 }
 
-VMTScriptList::~VMTScriptList() {
+VMTSceneList::~VMTSceneList() {
 }
 
 void VMTFilterList::_bind_methods() {

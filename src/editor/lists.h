@@ -50,8 +50,8 @@ class VMTList : public Panel {
 
 };
 
-class VMTScriptList : public VMTList {
-    GDCLASS(VMTScriptList, VMTList);
+class VMTSceneList : public VMTList {
+    GDCLASS(VMTSceneList, VMTList);
 
     private:
 
@@ -59,8 +59,8 @@ class VMTScriptList : public VMTList {
         static void _bind_methods();
 
     public:
-        VMTScriptList();
-        ~VMTScriptList();
+        VMTSceneList();
+        ~VMTSceneList();
 
         void _on_movie_opened(const String &name) override;
 

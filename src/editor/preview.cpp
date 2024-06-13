@@ -2,10 +2,13 @@
 
 #include <editor/tab.h>
 
+#define OUTER_MARGIN 8
+
 using namespace godot;
 
 void VMTPreview::_bind_methods() {
     ClassDB::bind_method(D_METHOD("update_svc"), &VMTPreview::update_svc);
+    ClassDB::bind_method(D_METHOD("_update_svc"), &VMTPreview::_update_svc);
     ClassDB::bind_method(D_METHOD("_on_movie_opened", "name"), &VMTPreview::_on_movie_opened);
 }
 
@@ -17,11 +20,21 @@ VMTPreview::VMTPreview() {
     set_h_size_flags(SIZE_EXPAND_FILL);
     set_v_size_flags(SIZE_EXPAND_FILL);
 
+    MarginContainer *margin = memnew(MarginContainer);
+    margin->set_anchors_and_offsets_preset(Control::PRESET_FULL_RECT);
+    margin->begin_bulk_theme_override();
+    margin->add_theme_constant_override("margin_left", OUTER_MARGIN);
+    margin->add_theme_constant_override("margin_top", OUTER_MARGIN);
+    margin->add_theme_constant_override("margin_right", OUTER_MARGIN);
+    margin->add_theme_constant_override("margin_bottom", OUTER_MARGIN);
+    margin->end_bulk_theme_override();
+    add_child(margin);
+
     VBoxContainer *vbc = memnew(VBoxContainer);
     vbc->set_anchors_preset(Control::PRESET_FULL_RECT);
     // vbc->set_h_size_flags(SIZE_EXPAND_FILL);
     // vbc->set_v_size_flags(SIZE_EXPAND_FILL);
-    add_child(vbc);
+    margin->add_child(vbc);
 
     aspect_ratio_container = memnew(AspectRatioContainer);
     aspect_ratio_container->set_h_size_flags(SIZE_EXPAND_FILL);
@@ -58,6 +71,14 @@ VMTPreview::VMTPreview() {
     slider = memnew(HSlider);
     vbc->add_child(slider);
 
+    HFlowContainer *buttons_container = memnew(HFlowContainer);
+    buttons_container->set_h_size_flags(SIZE_EXPAND_FILL);
+    buttons_container->set_alignment(HFlowContainer::ALIGNMENT_CENTER);
+    ADD_BUTTON(buttons_container, play, "Play", "Play");
+    ADD_BUTTON(buttons_container, pause, "Pause", "Pause");
+    ADD_BUTTON(buttons_container, stop, "Stop", "Stop");
+    vbc->add_child(buttons_container);
+
     connect("resized", Callable(this, "update_svc"));
 }
 
@@ -65,6 +86,12 @@ VMTPreview::~VMTPreview() {
 }
 
 void VMTPreview::update_svc() {
+    if (dummy->is_inside_tree()) {
+        get_tree()->connect("process_frame", Callable(this, "_update_svc"), CONNECT_ONE_SHOT + CONNECT_REFERENCE_COUNTED);
+    }
+}
+
+void VMTPreview::_update_svc() {
     svc->set_position(dummy->get_global_position());
     svc->set_scale(Vector2(1, 1) * dummy->get_size().x/svc->get_size().x);
 }
