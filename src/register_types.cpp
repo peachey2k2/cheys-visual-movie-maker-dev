@@ -13,6 +13,7 @@
 #include "editor/lists.h"
 #include "editor/preview.h"
 #include "editor/timeline.h"
+
 #include "popups/new_movie.h"
 #include "popups/open.h"
 #include "popups/settings.h"
@@ -42,6 +43,8 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level) {
 		ClassDB::register_internal_class<VMTOpenMoviePopup>();
 		ClassDB::register_internal_class<VMTSettingsPopup>();
 		ClassDB::register_internal_class<VMTVector2Field>();
+
+		// tween-related stuff
 		break;
 	}
 }

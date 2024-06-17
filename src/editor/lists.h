@@ -13,14 +13,7 @@
 #include <godot_cpp/classes/dir_access.hpp>
 #include <godot_cpp/classes/editor_settings.hpp>
 
-#define ADD_BUTTON(m_parent, m_name, m_tooltip, m_icon)                                                            \
-    Button *m_name = memnew(Button);                                                                    \
-    m_name->add_theme_icon_override(                                                                    \
-        "icon",                                                                                         \
-        EditorInterface::get_singleton()->get_base_control()->get_theme_icon(m_icon, "EditorIcons")     \
-    );                                                                                                  \
-    m_name->set_tooltip_text(m_tooltip);                                                                \
-    m_parent->add_child(m_name);                                                                        \
+#include "defines.h"                                                                     \
 
 namespace godot {
 

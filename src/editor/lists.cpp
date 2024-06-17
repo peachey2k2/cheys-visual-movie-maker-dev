@@ -109,11 +109,11 @@ void VMTSceneList::_bind_methods() {
 }
 
 VMTSceneList::VMTSceneList() {
-    set_title("Scripts");
+    set_title("Scenes");
 }
 
 void VMTSceneList::_on_movie_opened(const String &name) {
-    set_directory(VisualMovieTab::get_singleton()->get_movie()->path + "/scripts");
+    set_directory(VisualMovieTab::get_singleton()->get_movie()->path + "/scenes");
 }
 
 VMTSceneList::~VMTSceneList() {

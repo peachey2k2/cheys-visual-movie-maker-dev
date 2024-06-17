@@ -1,13 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://c5b1652k3cuf"]
+[gd_scene load_steps=5 format=3 uid="uid://c5b1652k3cuf"]
 
-[ext_resource type="Script" path="res://color_rect.gd" id="1_1qrvq"]
 [ext_resource type="Texture2D" uid="uid://dbx66sovxd1" path="res://icon.svg" id="1_n1ti4"]
 [ext_resource type="Script" path="res://test_button.gd" id="1_wt3kj"]
-[ext_resource type="Texture2D" uid="uid://bogbe644sfnmw" path="res://bin/assets/icon.png" id="3_6hgt0"]
-[ext_resource type="Script" path="res://button.gd" id="3_ktd4w"]
+[ext_resource type="Script" path="res://tree.gd" id="3_b4l3d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f0bds"]
-bg_color = Color(1, 0.365, 0.365, 1)
+bg_color = Color(0.504411, 0, 0.0777772, 1)
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -33,7 +31,6 @@ ratio = 0.5
 
 [node name="Control" type="ColorRect" parent="HSplitContainer/AspectRatioContainer"]
 layout_mode = 2
-script = ExtResource("1_1qrvq")
 
 [node name="Panel" type="Panel" parent="HSplitContainer"]
 custom_minimum_size = Vector2(200, 200)
@@ -84,113 +81,12 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_f0bds")
 
-[node name="TabContainer" type="TabContainer" parent="Window"]
+[node name="Tree" type="Tree" parent="Window"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-current_tab = 0
-
-[node name="Control" type="VBoxContainer" parent="Window/TabContainer"]
-layout_mode = 2
-metadata/_tab_index = 0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Window/TabContainer/Control"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Window/TabContainer/Control/HBoxContainer"]
-layout_mode = 2
 size_flags_horizontal = 3
-text = "segsdgsfgdfgdfhdfhdfdfhdfhdfhdfhdfhdfhdf"
-clip_text = true
-
-[node name="Button" type="Button" parent="Window/TabContainer/Control/HBoxContainer/Label"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -24.0
-offset_top = -12.0
-offset_bottom = 12.0
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_icons/icon = ExtResource("3_6hgt0")
-icon_alignment = 1
-
-[node name="CheckBox" type="CheckBox" parent="Window/TabContainer/Control/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Button" type="Button" parent="Window/TabContainer/Control"]
-layout_mode = 2
-script = ExtResource("3_ktd4w")
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="Window/TabContainer/Control"]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="Window/TabContainer/Control/HBoxContainer2"]
-custom_minimum_size = Vector2(50, 30)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "gwegwe"
-
-[node name="Button2" type="Button" parent="Window/TabContainer/Control/HBoxContainer2"]
-custom_minimum_size = Vector2(50, 30)
-layout_mode = 2
-disabled = true
-text = "hee"
-
-[node name="Button3" type="Button" parent="Window/TabContainer/Control/HBoxContainer2"]
-custom_minimum_size = Vector2(50, 30)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "gerge"
-
-[node name="MenuBar" type="MenuBar" parent="Window/TabContainer/Control"]
-layout_mode = 2
-
-[node name="PopupMenu" type="PopupMenu" parent="Window/TabContainer/Control/MenuBar"]
-
-[node name="PopupMenu2" type="PopupMenu" parent="Window/TabContainer/Control/MenuBar"]
-auto_translate_mode = 1
-
-[node name="PopupMenu3" type="PopupMenu" parent="Window/TabContainer/Control/MenuBar"]
-auto_translate_mode = 1
-
-[node name="Label" type="Label" parent="Window/TabContainer/Control/MenuBar"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -47.0
-offset_top = -11.5
-offset_bottom = 11.5
-grow_horizontal = 0
-grow_vertical = 2
-text = "efweg"
-
-[node name="Button2" type="HBoxContainer" parent="Window/TabContainer/Control"]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="Window/TabContainer/Control/Button2"]
-layout_mode = 2
-tooltip_text = "wefwegwregerg"
-text = "gerhe"
-
-[node name="TextEdit" type="TextEdit" parent="Window/TabContainer/Control"]
-layout_mode = 2
-
-[node name="Control2" type="Control" parent="Window/TabContainer"]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 1
-
-[node name="Control3" type="Control" parent="Window/TabContainer"]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 2
+size_flags_vertical = 3
+script = ExtResource("3_b4l3d")

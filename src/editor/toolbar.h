@@ -7,14 +7,7 @@
 #include <godot_cpp/classes/label.hpp>
 
 #include <godot_cpp/variant/utility_functions.hpp>
-
-constexpr unsigned int operator "" _hash(const char* str, size_t length) {
-    unsigned int hash = 0;
-    for(size_t i = 0; i < length; ++i) {
-        hash = 31 * hash + str[i];
-    }
-    return hash & 0x7FFFFFFF;
-}
+#include "defines.h"
 
 #define MENU_ITEM(m_name, m_type, m_flags) MenuItem{m_name, m_type, m_flags, m_name##_hash}
 
