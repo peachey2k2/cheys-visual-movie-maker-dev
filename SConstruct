@@ -17,6 +17,7 @@ dirs = [
     "src/",
     "src/editor/",
     "src/popups/",
+    "src/tween/",
 ]
 sources = []
 
