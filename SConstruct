@@ -16,6 +16,7 @@ projectdir = "demo"
 dirs = [
     "src/",
     "src/editor/",
+    "src/editor/timeline/",
     "src/popups/",
     "src/tween/",
 ]
