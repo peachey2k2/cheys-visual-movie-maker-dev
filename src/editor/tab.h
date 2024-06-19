@@ -15,7 +15,7 @@
 #include "editor/toolbar.h"
 #include "editor/lists.h"
 #include "editor/preview.h"
-#include "editor/timeline.h"
+#include "editor/timeline/timeline.h"
 #include "popups/new_movie.h"
 #include "popups/open.h"
 #include "popups/settings.h"

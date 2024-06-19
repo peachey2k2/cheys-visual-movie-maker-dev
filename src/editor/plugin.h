@@ -3,7 +3,7 @@
 #include <godot_cpp/classes/editor_plugin.hpp>
 #include <godot_cpp/classes/control.hpp>
 #include <godot_cpp/classes/v_box_container.hpp>
-#include "tab.h"
+#include "editor/tab.h"
 
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/editor_interface.hpp>

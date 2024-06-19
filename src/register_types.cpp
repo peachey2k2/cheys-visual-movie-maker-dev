@@ -12,7 +12,8 @@
 #include "editor/toolbar.h"
 #include "editor/lists.h"
 #include "editor/preview.h"
-#include "editor/timeline.h"
+#include "editor/timeline/timeline.h"
+#include "editor/timeline/timeline_items.h"
 
 #include "popups/new_movie.h"
 #include "popups/open.h"
@@ -26,6 +27,7 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level) {
 		ClassDB::register_class<VisualMoviePlayer>();
 		ClassDB::register_class<VisualMovie>();
 		break;
+		
 	case MODULE_INITIALIZATION_LEVEL_EDITOR:
 		// stuff related to editor tab plugin
 		ClassDB::register_internal_class<CVMMPlugin>();
@@ -38,13 +40,17 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level) {
 		ClassDB::register_internal_class<VMTPreview>();
 		ClassDB::register_internal_class<VMTTimeline>();
 
+		// timeline items
+		ClassDB::register_abstract_class<VMTTimelineItem>();
+		ClassDB::register_internal_class<VMTTween>();
+		ClassDB::register_internal_class<VMTNode>();
+		ClassDB::register_internal_class<VMTSound>();
+
 		// popups for the tab plugin
 		ClassDB::register_internal_class<VMTNewMoviePopup>();
 		ClassDB::register_internal_class<VMTOpenMoviePopup>();
 		ClassDB::register_internal_class<VMTSettingsPopup>();
 		ClassDB::register_internal_class<VMTVector2Field>();
-
-		// tween-related stuff
 		break;
 	}
 }

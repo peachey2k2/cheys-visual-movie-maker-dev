@@ -1,11 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://c5b1652k3cuf"]
+[gd_scene load_steps=6 format=3 uid="uid://c5b1652k3cuf"]
 
 [ext_resource type="Texture2D" uid="uid://dbx66sovxd1" path="res://icon.svg" id="1_n1ti4"]
 [ext_resource type="Script" path="res://test_button.gd" id="1_wt3kj"]
 [ext_resource type="Script" path="res://tree.gd" id="3_b4l3d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f0bds"]
-bg_color = Color(0.504411, 0, 0.0777772, 1)
+bg_color = Color(0.211765, 0.239216, 0.290196, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n31tw"]
+bg_color = Color(0, 0.552941, 0, 0.490196)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0.298039, 0, 1)
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -82,6 +90,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_f0bds")
 
 [node name="Tree" type="Tree" parent="Window"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -90,3 +99,41 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("3_b4l3d")
+
+[node name="Button" type="Button" parent="Window"]
+custom_minimum_size = Vector2(0, 50)
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_n31tw")
+text = "test"
+
+[node name="VFlowContainer" type="VBoxContainer" parent="Window"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 104.0
+grow_horizontal = 2
+
+[node name="Button" type="Button" parent="Window/VFlowContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_n31tw")
+text = "test"
+
+[node name="Button2" type="Button" parent="Window/VFlowContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_n31tw")
+text = "test"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Window"]
+offset_right = 40.0
+offset_bottom = 40.0
