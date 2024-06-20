@@ -57,7 +57,8 @@ void VisualMovieTab::initialize_children() {
     timeline = memnew(VMTTimeline);
     timeline->set_h_size_flags(SizeFlags::SIZE_EXPAND_FILL);
     timeline->set_v_size_flags(SizeFlags::SIZE_EXPAND_FILL);
-    vsc->add_child(timeline);
+    vsc->call_deferred("add_child", timeline);
+    // vsc->add_child(timeline);
 
     new_movie_popup = memnew(VMTNewMoviePopup);
     add_child(new_movie_popup);

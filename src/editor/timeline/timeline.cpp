@@ -8,7 +8,7 @@ using namespace godot;
 void VMTTimeline::_bind_methods() {
 }
 
-VMTTimeline::VMTTimeline() {
+void VMTTimeline::_ready() {
     MarginContainer *margin = memnew(MarginContainer);
     margin->set_anchors_and_offsets_preset(Control::PRESET_FULL_RECT);
     margin->begin_bulk_theme_override();
@@ -20,7 +20,7 @@ VMTTimeline::VMTTimeline() {
     add_child(margin);
 
     VBoxContainer *vbox = memnew(VBoxContainer);
-    vbox->set_anchors_and_offsets_preset(Control::PRESET_FULL_RECT);
+    // vbox->set_anchors_and_offsets_preset(Control::PRESET_FULL_RECT);
     margin->add_child(vbox);
 
     HFlowContainer *hotbar = memnew(HFlowContainer);
@@ -34,43 +34,32 @@ VMTTimeline::VMTTimeline() {
 
     ScrollContainer *scroll = memnew(ScrollContainer);
     scroll->set_v_size_flags(Control::SIZE_EXPAND_FILL);
+    scroll->set_horizontal_scroll_mode(ScrollContainer::SCROLL_MODE_SHOW_ALWAYS);
+    scroll->set_vertical_scroll_mode(ScrollContainer::SCROLL_MODE_SHOW_ALWAYS);
     vbox->add_child(scroll);
 
     Panel *panel = memnew(Panel);
-    panel->set_h_size_flags(Control::SIZE_EXPAND_FILL);
-    panel->set_v_size_flags(Control::SIZE_EXPAND_FILL);
+    panel->set_custom_minimum_size(Size2(10000, VMTTimelineItem::TOTAL_HEIGHT));
+    panel->add_theme_stylebox_override("panel", EditorInterface::get_singleton()->get_base_control()->get_theme_stylebox("panel", "Tree"));
     scroll->add_child(panel);
 
-    VBoxContainer *rows = memnew(VBoxContainer);
-    rows->set_anchors_and_offsets_preset(Control::PRESET_FULL_RECT);
-    panel->add_child(rows);
-
-    tweens = memnew(VBoxContainer);
-    tweens->set_h_size_flags(Control::SIZE_EXPAND_FILL);
-    rows->add_child(tweens);
-
-    tweens->add_child(memnew(VMTTween));
-    tweens->add_child(memnew(VMTTween));
-    tweens->add_child(memnew(VMTTween));
-
-    rows->add_child(memnew(VMTNode));
-
-    sounds = memnew(VBoxContainer);
-    sounds->set_h_size_flags(Control::SIZE_EXPAND_FILL);
-    rows->add_child(sounds);
-
-    sounds->add_child(memnew(VMTSound));
-    sounds->add_child(memnew(VMTSound));
-    sounds->add_child(memnew(VMTSound));
+    panel->add_child(VMTTween::create(0, 200, 0));
+    panel->add_child(VMTTween::create(100, 300, 1));
+    panel->add_child(VMTTween::create(200, 400, 2));
+    panel->add_child(VMTNode::create(memnew(Node)));
+    panel->add_child(VMTSound::create(0, 200, 0));
+    panel->add_child(VMTSound::create(100, 300, 1));
+    panel->add_child(VMTSound::create(200, 400, 2));
     
-    
+}
+
+VMTTimeline::VMTTimeline() {
 }
 
 VMTTimeline::~VMTTimeline() {
 }
 
 void VMTTimeline::add_tween() {
-    tweens->add_child(memnew(Button));
 }
 
 void VMTTimeline::add_sound() {
