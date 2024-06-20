@@ -17,8 +17,7 @@ class VMTTimeline : public Panel {
     GDCLASS(VMTTimeline, Panel);
 
     private:
-        VBoxContainer *tweens;
-        VBoxContainer *sounds;
+        float zoom_factor = 1.0;
 
         void add_tween();
         void add_sound();
@@ -29,6 +28,10 @@ class VMTTimeline : public Panel {
     public:
         VMTTimeline();
         ~VMTTimeline();
+
+        void _ready() override;
+
+        float get_zoom_factor() const { return zoom_factor; }
 
 };
 
