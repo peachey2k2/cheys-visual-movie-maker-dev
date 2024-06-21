@@ -10,10 +10,18 @@ namespace godot {
 class VMTTimelineItem : public Button {
     GDCLASS(VMTTimelineItem, Button);
 
-    public: enum Direction {
-        LEFT,
-        RIGHT
-    };
+    public: 
+        enum Direction {
+            LEFT,
+            RIGHT,
+            MIDDLE,
+        };
+
+        typedef struct {
+            VMTTimelineItem *item;
+            Direction dir;
+            float offset;
+        } DragData;
 
     private:
         Control *l_handle;
@@ -47,8 +55,10 @@ class VMTTimelineItem : public Button {
         void _on_pressed();
         void _on_gui_input_left(const InputEvent*);
         void _on_gui_input_right(const InputEvent*);
+        void _on_gui_input_middle(const InputEvent*);
 
-        static std::pair<VMTTimelineItem*, Direction> cur_handle;
+        static DragData cur_draggable;
+        virtual int to_row(float p_height) const {return 0;};
 
     public:
         static const int TWEEN_HEIGHT = 32;
@@ -67,12 +77,14 @@ class VMTTween : public VMTTimelineItem {
 
     protected:
         static void _bind_methods();
+
         void refresh_position() override;
 
     public:
         VMTTween();
         ~VMTTween();
         static VMTTween *create(int p_start, int p_end, int p_row);
+        int to_row(float p_height) const override;
 
 };
 
@@ -90,6 +102,7 @@ class VMTNode : public VMTTimelineItem {
         VMTNode();
         ~VMTNode();
         static VMTNode *create(Node *p_root);
+        int to_row(float p_height) const override;
 
 };
 
@@ -107,6 +120,7 @@ class VMTSound : public VMTTimelineItem {
         VMTSound();
         ~VMTSound();
         static VMTSound *create(int p_start, int p_end, int p_row);
+        int to_row(float p_height) const override;
 
 };
 

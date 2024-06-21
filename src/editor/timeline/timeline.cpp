@@ -54,19 +54,25 @@ void VMTTimeline::_ready() {
 }
 
 void VMTTimeline::_process(float p_delta) {
-    auto [item, dir] = VMTTimelineItem::cur_handle;
+    auto [item, dir, offset] = VMTTimelineItem::cur_draggable;
     if (item != nullptr) {
         Vector2 mouse_pos = panel->get_local_mouse_position();
-        if (dir == VMTTimelineItem::LEFT) {
-            item->resize(mouse_pos.x / zoom_factor, item->get_end_frame());
-        } else {
-            item->resize(item->get_start_frame(), mouse_pos.x / zoom_factor);
+        switch (dir) {
+            case VMTTimelineItem::LEFT:
+                item->resize(mouse_pos.x / zoom_factor, item->get_end_frame());
+                break;
+            case VMTTimelineItem::RIGHT:
+                item->resize(item->get_start_frame(), mouse_pos.x / zoom_factor);
+                break;
+            case VMTTimelineItem::MIDDLE:
+                item->move((mouse_pos.x - offset) / zoom_factor, item->to_row(mouse_pos.y));
+                break;
         }
     }
 }
 
 VMTTimeline::VMTTimeline() {
-    // VMTTimelineItem::cur_handle.first = nullptr;
+    // VMTTimelineItem::cur_draggable.first = nullptr;
 }
 
 VMTTimeline::~VMTTimeline() {
