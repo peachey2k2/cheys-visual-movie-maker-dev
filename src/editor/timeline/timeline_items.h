@@ -3,17 +3,21 @@
 #include "godot_cpp/classes/button.hpp"
 #include "godot_cpp/classes/editor_interface.hpp"
 #include "godot_cpp/classes/style_box.hpp"
-
-#include "godot_cpp/classes/color_rect.hpp"
+#include "godot_cpp/classes/input_event_mouse_button.hpp"
 
 namespace godot {
 
 class VMTTimelineItem : public Button {
     GDCLASS(VMTTimelineItem, Button);
 
+    public: enum Direction {
+        LEFT,
+        RIGHT
+    };
+
     private:
-        ColorRect *l_handle;
-        ColorRect *r_handle;
+        Control *l_handle;
+        Control *r_handle;
 
     protected:
         static void _bind_methods();
@@ -41,6 +45,10 @@ class VMTTimelineItem : public Button {
         void move(int p_dest_frame, int p_dest_row);
 
         void _on_pressed();
+        void _on_gui_input_left(const InputEvent*);
+        void _on_gui_input_right(const InputEvent*);
+
+        static std::pair<VMTTimelineItem*, Direction> cur_handle;
 
     public:
         static const int TWEEN_HEIGHT = 32;

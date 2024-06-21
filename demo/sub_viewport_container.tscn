@@ -100,40 +100,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("3_b4l3d")
 
-[node name="Button" type="Button" parent="Window"]
-custom_minimum_size = Vector2(0, 50)
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -4.0
-offset_bottom = 4.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_n31tw")
-text = "test"
-
-[node name="VFlowContainer" type="VBoxContainer" parent="Window"]
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 104.0
-grow_horizontal = 2
-
-[node name="Button" type="Button" parent="Window/VFlowContainer"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_n31tw")
-text = "test"
-
-[node name="Button2" type="Button" parent="Window/VFlowContainer"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_n31tw")
-text = "test"
-
 [node name="VBoxContainer" type="VBoxContainer" parent="Window"]
 offset_right = 40.0
 offset_bottom = 40.0
@@ -145,3 +111,22 @@ offset_bottom = 50.0
 size_flags_horizontal = 6
 theme_override_styles/normal = SubResource("StyleBoxFlat_n31tw")
 text = "test"
+
+[node name="ColorRect" type="ColorRect" parent="Window/Button3"]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+mouse_default_cursor_shape = 10
+
+[node name="ColorRect2" type="ColorRect" parent="Window/Button3"]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_default_cursor_shape = 10
