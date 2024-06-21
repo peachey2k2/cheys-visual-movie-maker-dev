@@ -38,7 +38,7 @@ void VMTTimeline::_ready() {
     scroll->set_vertical_scroll_mode(ScrollContainer::SCROLL_MODE_SHOW_ALWAYS);
     vbox->add_child(scroll);
 
-    Panel *panel = memnew(Panel);
+    panel = memnew(Panel);
     panel->set_custom_minimum_size(Size2(10000, VMTTimelineItem::TOTAL_HEIGHT));
     panel->add_theme_stylebox_override("panel", EditorInterface::get_singleton()->get_base_control()->get_theme_stylebox("panel", "Tree"));
     scroll->add_child(panel);
@@ -53,7 +53,20 @@ void VMTTimeline::_ready() {
     
 }
 
+void VMTTimeline::_process(float p_delta) {
+    auto [item, dir] = VMTTimelineItem::cur_handle;
+    if (item != nullptr) {
+        Vector2 mouse_pos = panel->get_local_mouse_position();
+        if (dir == VMTTimelineItem::LEFT) {
+            item->resize(mouse_pos.x / zoom_factor, item->get_end_frame());
+        } else {
+            item->resize(item->get_start_frame(), mouse_pos.x / zoom_factor);
+        }
+    }
+}
+
 VMTTimeline::VMTTimeline() {
+    // VMTTimelineItem::cur_handle.first = nullptr;
 }
 
 VMTTimeline::~VMTTimeline() {

@@ -17,6 +17,8 @@ class VMTTimeline : public Panel {
     GDCLASS(VMTTimeline, Panel);
 
     private:
+        Panel *panel;
+
         float zoom_factor = 1.0;
 
         void add_tween();
@@ -28,6 +30,7 @@ class VMTTimeline : public Panel {
     public:
         VMTTimeline();
         ~VMTTimeline();
+        void _process(float p_delta);
 
         void _ready() override;
 

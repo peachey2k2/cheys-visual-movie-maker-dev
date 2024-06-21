@@ -4,25 +4,33 @@
 
 using namespace godot;
 
+std::pair<VMTTimelineItem*, VMTTimelineItem::Direction> VMTTimelineItem::cur_handle = std::make_pair(nullptr, LEFT);
+
 /******* VMTTimeline methods *******/
 
 void VMTTimelineItem::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_on_pressed"), &VMTTimelineItem::_on_pressed);
+    ClassDB::bind_method(D_METHOD("_on_gui_input_left"), &VMTTimelineItem::_on_gui_input_left);
+    ClassDB::bind_method(D_METHOD("_on_gui_input_right"), &VMTTimelineItem::_on_gui_input_right);
 }
 
 VMTTimelineItem::VMTTimelineItem() {
-    l_handle = memnew(ColorRect);
-    l_handle->set_custom_minimum_size(Size2(2, 0));
-    l_handle->set_h_size_flags(Control::SIZE_SHRINK_BEGIN);
-    l_handle->set_v_size_flags(Control::SIZE_EXPAND_FILL);
+    l_handle = memnew(Control);
+    l_handle->set_custom_minimum_size(Size2(4, 0));
+    // l_handle->set_h_size_flags(Control::SIZE_SHRINK_BEGIN);
+    // l_handle->set_v_size_flags(Control::SIZE_EXPAND_FILL);
+    l_handle->set_anchors_and_offsets_preset(Control::PRESET_LEFT_WIDE);
     l_handle->set_default_cursor_shape(Control::CURSOR_HSIZE);
+    l_handle->connect("gui_input", Callable(this, "_on_gui_input_left"));
     add_child(l_handle);
 
-    r_handle = memnew(ColorRect);
-    r_handle->set_custom_minimum_size(Size2(2, 0));
-    r_handle->set_h_size_flags(Control::SIZE_SHRINK_END);
-    r_handle->set_v_size_flags(Control::SIZE_EXPAND_FILL);
+    r_handle = memnew(Control);
+    r_handle->set_custom_minimum_size(Size2(4, 0));
+    // r_handle->set_h_size_flags(Control::SIZE_SHRINK_END);
+    // r_handle->set_v_size_flags(Control::SIZE_EXPAND_FILL);
+    r_handle->set_anchors_and_offsets_preset(Control::PRESET_RIGHT_WIDE);
     r_handle->set_default_cursor_shape(Control::CURSOR_HSIZE);
+    r_handle->connect("gui_input", Callable(this, "_on_gui_input_right"));
     add_child(r_handle);
 
     connect("pressed", Callable(this, "_on_pressed"));
@@ -38,6 +46,30 @@ VMTTimelineItem::~VMTTimelineItem() {
 
 void VMTTimelineItem::_on_pressed() {
     UtilityFunctions::print(l_handle->get_position(), " ", r_handle->get_position());
+}
+
+void VMTTimelineItem::_on_gui_input_left(const InputEvent *p_event) {
+    auto e = dynamic_cast<const InputEventMouseButton*>(p_event);
+    if (e == nullptr) return;
+    if (e->get_button_index() != MouseButton::MOUSE_BUTTON_LEFT) return;
+    if (e->is_pressed()) {
+        cur_handle = std::make_pair(this, LEFT);
+    } else {
+        cur_handle.first = nullptr;
+    }
+    UtilityFunctions::print("left");
+}
+
+void VMTTimelineItem::_on_gui_input_right(const InputEvent *p_event) {
+    auto e = dynamic_cast<const InputEventMouseButton*>(p_event);
+    if (e == nullptr) return;
+    if (e->get_button_index() != MouseButton::MOUSE_BUTTON_LEFT) return;
+    if (e->is_pressed()) {
+        cur_handle = std::make_pair(this, RIGHT);
+    } else {
+        cur_handle.first = nullptr;
+    }
+    UtilityFunctions::print("right");
 }
 
 void VMTTimelineItem::set_start_frame(int p_start) {
@@ -56,7 +88,7 @@ void VMTTimelineItem::set_row(int p_row) {
 }
 
 void VMTTimelineItem::resize(int p_start, int p_end) {
-    // ERR_FAIL_COND_MSG(p_end-p_start > get_length(), "Cannot resize to a length greater than the current length");
+    if (end_frame < start_frame) return;
     set_start_frame(p_start);
     set_end_frame(p_end);
 }
