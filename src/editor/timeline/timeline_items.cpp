@@ -4,14 +4,17 @@
 
 using namespace godot;
 
-std::pair<VMTTimelineItem*, VMTTimelineItem::Direction> VMTTimelineItem::cur_handle = std::make_pair(nullptr, LEFT);
+/******* Statics *******/
 
-/******* VMTTimeline methods *******/
+VMTTimelineItem::DragData VMTTimelineItem::cur_draggable = DragData{nullptr, LEFT, 0.0};
+
+/******* VMTTimelineItem methods *******/
 
 void VMTTimelineItem::_bind_methods() {
     ClassDB::bind_method(D_METHOD("_on_pressed"), &VMTTimelineItem::_on_pressed);
     ClassDB::bind_method(D_METHOD("_on_gui_input_left"), &VMTTimelineItem::_on_gui_input_left);
     ClassDB::bind_method(D_METHOD("_on_gui_input_right"), &VMTTimelineItem::_on_gui_input_right);
+    ClassDB::bind_method(D_METHOD("_on_gui_input_middle"), &VMTTimelineItem::_on_gui_input_middle);
 }
 
 VMTTimelineItem::VMTTimelineItem() {
@@ -34,6 +37,7 @@ VMTTimelineItem::VMTTimelineItem() {
     add_child(r_handle);
 
     connect("pressed", Callable(this, "_on_pressed"));
+    connect("gui_input", Callable(this, "_on_gui_input_middle"));
     set_clip_text(true);
 }
 
@@ -53,11 +57,10 @@ void VMTTimelineItem::_on_gui_input_left(const InputEvent *p_event) {
     if (e == nullptr) return;
     if (e->get_button_index() != MouseButton::MOUSE_BUTTON_LEFT) return;
     if (e->is_pressed()) {
-        cur_handle = std::make_pair(this, LEFT);
+        cur_draggable = DragData{this, LEFT, get_local_mouse_position().x};
     } else {
-        cur_handle.first = nullptr;
+        cur_draggable.item = nullptr;
     }
-    UtilityFunctions::print("left");
 }
 
 void VMTTimelineItem::_on_gui_input_right(const InputEvent *p_event) {
@@ -65,11 +68,21 @@ void VMTTimelineItem::_on_gui_input_right(const InputEvent *p_event) {
     if (e == nullptr) return;
     if (e->get_button_index() != MouseButton::MOUSE_BUTTON_LEFT) return;
     if (e->is_pressed()) {
-        cur_handle = std::make_pair(this, RIGHT);
+        cur_draggable = DragData{this, RIGHT, get_local_mouse_position().x};
     } else {
-        cur_handle.first = nullptr;
+        cur_draggable.item = nullptr;
     }
-    UtilityFunctions::print("right");
+}
+
+void VMTTimelineItem:: _on_gui_input_middle(const InputEvent *p_event) {
+    auto e = dynamic_cast<const InputEventMouseButton*>(p_event);
+    if (e == nullptr) return;
+    if (e->get_button_index() != MouseButton::MOUSE_BUTTON_LEFT) return;
+    if (e->is_pressed()) {
+        cur_draggable = DragData{this, MIDDLE, get_local_mouse_position().x};
+    } else {
+        cur_draggable.item = nullptr;
+    }
 }
 
 void VMTTimelineItem::set_start_frame(int p_start) {
@@ -89,13 +102,16 @@ void VMTTimelineItem::set_row(int p_row) {
 
 void VMTTimelineItem::resize(int p_start, int p_end) {
     if (end_frame < start_frame) return;
+    if (start_frame < 0) start_frame = 0;
     set_start_frame(p_start);
     set_end_frame(p_end);
 }
 
 void VMTTimelineItem::move(int p_dest_frame, int p_dest_row) {
-    start_frame = p_dest_frame;
+    if (p_dest_row < 0) p_dest_row = 0;
+    if (p_dest_frame < 0) p_dest_frame = 0;
     end_frame = p_dest_frame + get_length();
+    start_frame = p_dest_frame;
     row = p_dest_row;
     refresh_position();
 }
@@ -130,6 +146,10 @@ void VMTTween::refresh_position() {
     set_size(Vector2(get_length() * zoom_factor, TWEEN_HEIGHT));
 }
 
+int VMTTween::to_row(float p_height) const {
+    return (NODE_POS - p_height) / TWEEN_HEIGHT;
+}
+
 /******* VMTNode methods *******/
 
 void VMTNode::_bind_methods() {
@@ -156,6 +176,10 @@ void VMTNode::refresh_position() {
     float zoom_factor = VisualMovieTab::get_singleton()->get_timeline()->get_zoom_factor();
     set_position(Vector2(start_frame * zoom_factor, NODE_POS));
     set_size(Vector2(get_length() * zoom_factor, NODE_HEIGHT));
+}
+
+int VMTNode::to_row(float p_height) const {
+    return 0;
 }
 
 /******* VMTSound methods *******/
@@ -186,6 +210,10 @@ void VMTSound::refresh_position() {
     float zoom_factor = VisualMovieTab::get_singleton()->get_timeline()->get_zoom_factor();
     set_position(Vector2(start_frame * zoom_factor, NODE_HEIGHT + NODE_POS + (row * SOUND_HEIGHT)));
     set_size(Vector2(get_length() * zoom_factor, SOUND_HEIGHT));
+}
+
+int VMTSound::to_row(float p_height) const {
+    return (p_height - NODE_HEIGHT - NODE_POS) / SOUND_HEIGHT;
 }
 
 

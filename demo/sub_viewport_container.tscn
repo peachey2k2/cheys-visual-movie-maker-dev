@@ -113,7 +113,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_n31tw")
 text = "test"
 
 [node name="ColorRect" type="ColorRect" parent="Window/Button3"]
-custom_minimum_size = Vector2(2, 0)
+custom_minimum_size = Vector2(4, 0)
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -121,7 +121,7 @@ grow_vertical = 2
 mouse_default_cursor_shape = 10
 
 [node name="ColorRect2" type="ColorRect" parent="Window/Button3"]
-custom_minimum_size = Vector2(2, 0)
+custom_minimum_size = Vector2(4, 0)
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
