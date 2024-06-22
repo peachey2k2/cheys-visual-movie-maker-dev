@@ -51,6 +51,7 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level) {
 		ClassDB::register_internal_class<VMTOpenMoviePopup>();
 		ClassDB::register_internal_class<VMTSettingsPopup>();
 		ClassDB::register_internal_class<VMTVector2Field>();
+		ClassDB::register_internal_class<VMTEditTweenPopup>();
 		break;
 	}
 }
