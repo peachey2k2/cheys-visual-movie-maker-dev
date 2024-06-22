@@ -78,10 +78,14 @@ void VMTTimelineItem:: _on_gui_input_middle(const InputEvent *p_event) {
     auto e = dynamic_cast<const InputEventMouseButton*>(p_event);
     if (e == nullptr) return;
     if (e->get_button_index() != MouseButton::MOUSE_BUTTON_LEFT) return;
-    if (e->is_pressed()) {
-        cur_draggable = DragData{this, MIDDLE, get_local_mouse_position().x};
+    if (e->is_double_click()) {
+        VisualMovieTab::get_singleton()->get_edit_tween_popup()->_popup(this);
     } else {
-        cur_draggable.item = nullptr;
+        if (e->is_pressed()) {
+            cur_draggable = DragData{this, MIDDLE, get_local_mouse_position().x};
+        } else {
+            cur_draggable.item = nullptr;
+        }
     }
 }
 

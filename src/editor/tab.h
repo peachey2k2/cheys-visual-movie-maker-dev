@@ -19,6 +19,7 @@
 #include "popups/new_movie.h"
 #include "popups/open.h"
 #include "popups/settings.h"
+#include "popups/edit_tween.h"
 
 namespace godot {
 
@@ -52,6 +53,7 @@ class VisualMovieTab : public Control {
         VMTNewMoviePopup *new_movie_popup;
         VMTOpenMoviePopup *open_movie_popup;
         VMTSettingsPopup *settings_popup;
+        VMTEditTweenPopup *edit_tween_popup;
 
 
     protected:
@@ -73,6 +75,7 @@ class VisualMovieTab : public Control {
         VMTNewMoviePopup *get_new_movie_popup() { return new_movie_popup; }
         VMTOpenMoviePopup *get_open_movie_popup() { return open_movie_popup; }
         VMTSettingsPopup *get_settings_popup() { return settings_popup; }
+        VMTEditTweenPopup *get_edit_tween_popup() { return edit_tween_popup; }
 
         Variant get_setting(const String p_name) { return settings_popup->get_setting(p_name); }
 

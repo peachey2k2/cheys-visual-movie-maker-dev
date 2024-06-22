@@ -68,6 +68,9 @@ void VisualMovieTab::initialize_children() {
 
     settings_popup = memnew(VMTSettingsPopup);
     add_child(settings_popup);
+
+    edit_tween_popup = memnew(VMTEditTweenPopup);
+    add_child(edit_tween_popup);
 }
 
 VisualMovieTab::VisualMovieTab() {
