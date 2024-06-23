@@ -49,7 +49,7 @@ VMTTimelineItem::~VMTTimelineItem() {
 }
 
 void VMTTimelineItem::_on_pressed() {
-    UtilityFunctions::print(l_handle->get_position(), " ", r_handle->get_position());
+    // UtilityFunctions::print(l_handle->get_position(), " ", r_handle->get_position());
 }
 
 void VMTTimelineItem::_on_gui_input_left(const InputEvent *p_event) {
@@ -57,7 +57,7 @@ void VMTTimelineItem::_on_gui_input_left(const InputEvent *p_event) {
     if (e == nullptr) return;
     if (e->get_button_index() != MouseButton::MOUSE_BUTTON_LEFT) return;
     if (e->is_pressed()) {
-        cur_draggable = DragData{this, LEFT, get_local_mouse_position().x};
+        cur_draggable = DragData{this, LEFT, (float)get_local_mouse_position().x};
     } else {
         cur_draggable.item = nullptr;
     }
@@ -68,7 +68,7 @@ void VMTTimelineItem::_on_gui_input_right(const InputEvent *p_event) {
     if (e == nullptr) return;
     if (e->get_button_index() != MouseButton::MOUSE_BUTTON_LEFT) return;
     if (e->is_pressed()) {
-        cur_draggable = DragData{this, RIGHT, get_local_mouse_position().x};
+        cur_draggable = DragData{this, RIGHT, (float)get_local_mouse_position().x};
     } else {
         cur_draggable.item = nullptr;
     }
@@ -82,7 +82,7 @@ void VMTTimelineItem:: _on_gui_input_middle(const InputEvent *p_event) {
         VisualMovieTab::get_singleton()->get_edit_tween_popup()->_popup(this);
     } else {
         if (e->is_pressed()) {
-            cur_draggable = DragData{this, MIDDLE, get_local_mouse_position().x};
+            cur_draggable = DragData{this, MIDDLE, (float)get_local_mouse_position().x};
         } else {
             cur_draggable.item = nullptr;
         }
