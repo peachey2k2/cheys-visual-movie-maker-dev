@@ -23,6 +23,13 @@
 
 namespace godot {
 
+typedef struct {
+    unsigned int hours;
+    unsigned int minutes;
+    unsigned int seconds;
+    unsigned int milliseconds;
+} TimeSeperated;
+
 class VisualMovieTab : public Control {
     GDCLASS(VisualMovieTab, Control);
 
@@ -53,7 +60,6 @@ class VisualMovieTab : public Control {
         VMTNewMoviePopup *new_movie_popup;
         VMTOpenMoviePopup *open_movie_popup;
         VMTSettingsPopup *settings_popup;
-        VMTEditTweenPopup *edit_tween_popup;
 
 
     protected:
@@ -75,12 +81,22 @@ class VisualMovieTab : public Control {
         VMTNewMoviePopup *get_new_movie_popup() { return new_movie_popup; }
         VMTOpenMoviePopup *get_open_movie_popup() { return open_movie_popup; }
         VMTSettingsPopup *get_settings_popup() { return settings_popup; }
-        VMTEditTweenPopup *get_edit_tween_popup() { return edit_tween_popup; }
+        
+        VMTEditTweenPopup *create_edit_tween_popup(VMTTween *tween) {
+            auto popup = memnew(VMTEditTweenPopup);
+            add_child(popup);
+            popup->_popup(tween);
+            return popup;
+        }
 
         Variant get_setting(const String p_name) { return settings_popup->get_setting(p_name); }
 
+        // menu actions
         void new_movie(const String name);
         void open_movie(const String path);
+
+        // utility
+        TimeSeperated to_time_seperated(int p_frame);
 
 };
 

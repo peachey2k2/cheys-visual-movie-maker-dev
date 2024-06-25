@@ -75,6 +75,7 @@ void VMTSettingsPopup::define_settings() {
     CATEGORY(general);
     add_setting("project_name", S_STRING, "");
     add_setting("viewport_dimensions", S_VECTOR2, Vector2(1280, 720), Array::make(Vector2(1, 1), Vector2(4096, 4096), Vector2(1, 1)));
+    add_setting("framerate", S_INTEGER, 60, Array::make(1, 1440));
     add_setting("background_color", S_COLOR, Color(0.3, 0.3, 0.3, 1));
 }
 

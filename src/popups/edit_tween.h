@@ -16,7 +16,7 @@ class VMTEditTweenPopup : public Window {
     GDCLASS(VMTEditTweenPopup, Window);
 
     private:
-        void _on_create_pressed();
+        void _on_save_pressed();
         void _on_cancel_pressed();
     
     protected:
