@@ -68,9 +68,6 @@ void VisualMovieTab::initialize_children() {
 
     settings_popup = memnew(VMTSettingsPopup);
     add_child(settings_popup);
-
-    edit_tween_popup = memnew(VMTEditTweenPopup);
-    add_child(edit_tween_popup);
 }
 
 VisualMovieTab::VisualMovieTab() {
@@ -86,16 +83,16 @@ VisualMovieTab::~VisualMovieTab() {
 
 void VisualMovieTab::new_movie(const String name) {
     UtilityFunctions::print("Creating new movie: " + name);
-    Ref<DirAccess> dir = DirAccess::open("user://cvmm");
+    Ref<DirAccess> dir = DirAccess::open("res://cvmm");
     Error err = dir->make_dir(name);
     ERR_FAIL_COND_MSG(err != OK, "Failed to create directory for new movie.");
 
     Ref<ConfigFile> config = memnew(ConfigFile);
     config->set_value("general", "project_name", name);
-    err = config->save("user://cvmm/" + name + "/project.cvmm");
+    err = config->save("res://cvmm/" + name + "/project.cvmm");
     ERR_FAIL_COND_MSG(err != OK, "Failed to save initial project configuration file.");
 
-    open_movie("user://cvmm/" + name + "/");
+    open_movie("res://cvmm/" + name + "/");
     UtilityFunctions::print("New movie created: " + name);
 }
 
@@ -109,5 +106,14 @@ void VisualMovieTab::open_movie(const String path) {
     get_tree()->connect("process_frame", Callable(get_settings_popup(), "initialize_settings"), CONNECT_ONE_SHOT + CONNECT_DEFERRED);
 
     // emit_signal("movie_opened", movie.name);
+}
+
+TimeSeperated VisualMovieTab::to_time_seperated(int p_frame) {
+    int fps = (int)get_setting("framerate");
+    unsigned long int milliseconds = (long int)(1000.0 * p_frame / fps);
+    unsigned int seconds = milliseconds / 1000;
+    unsigned int minutes = seconds / 60;
+    unsigned int hours = minutes / 60;
+    return TimeSeperated{hours, minutes % 60, seconds % 60, (unsigned int)(milliseconds % 1000)};
 }
 

@@ -3,7 +3,7 @@
 using namespace godot;
 
 void VMTEditTweenPopup::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("_on_create_pressed"), &VMTEditTweenPopup::_on_create_pressed);
+    ClassDB::bind_method(D_METHOD("_on_save_pressed"), &VMTEditTweenPopup::_on_save_pressed);
     ClassDB::bind_method(D_METHOD("_on_cancel_pressed"), &VMTEditTweenPopup::_on_cancel_pressed);
     ClassDB::bind_method(D_METHOD("close_popup"), &VMTEditTweenPopup::close_popup);
 }
@@ -41,8 +41,8 @@ VMTEditTweenPopup::VMTEditTweenPopup() {
     vbox->add_child(hbox);
 
     Button *create = memnew(Button);
-    create->connect("pressed", Callable(this, "_on_create_pressed"));
-    create->set_text("Create");
+    create->connect("pressed", Callable(this, "_on_save_pressed"));
+    create->set_text("Save");
     hbox->add_child(create);
 
     Button *cancel = memnew(Button);
@@ -59,11 +59,13 @@ void VMTEditTweenPopup::_popup(VMTTimelineItem *p_item) {
 }
 
 void VMTEditTweenPopup::close_popup() {
+    queue_free();
 }
 
-void VMTEditTweenPopup::_on_create_pressed() {
+void VMTEditTweenPopup::_on_save_pressed() {
 }
 
 void VMTEditTweenPopup::_on_cancel_pressed() {
+    close_popup();
 }
 

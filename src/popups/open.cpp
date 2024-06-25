@@ -14,7 +14,8 @@ VMTOpenMoviePopup::VMTOpenMoviePopup() {
     set_title("Open Movie");
     set_access(EditorFileDialog::ACCESS_FILESYSTEM);
     set_file_mode(EditorFileDialog::FILE_MODE_OPEN_FILE);
-    set_current_dir(OS::get_singleton()->get_user_data_dir()); // for some reason "user://" didn't work
+    set_current_dir("res://");
+    // set_current_dir(OS::get_singleton()->get_user_data_dir()); // for some reason "user://" didn't work
     set_filters({Array::make("*.cvmm; Visual Movie (*.cvmm)")});
     connect("file_selected", Callable(this, "_on_file_selected"));
     connect("close_requested", Callable(this, "close_popup"));

@@ -58,6 +58,8 @@ void VMTTimelineItem::_on_gui_input_left(const InputEvent *p_event) {
     if (e->get_button_index() != MouseButton::MOUSE_BUTTON_LEFT) return;
     if (e->is_pressed()) {
         cur_draggable = DragData{this, LEFT, (float)get_local_mouse_position().x};
+        // stupid mingw can't even automatically cast this to a float
+        // what a joke
     } else {
         cur_draggable.item = nullptr;
     }
@@ -78,14 +80,11 @@ void VMTTimelineItem:: _on_gui_input_middle(const InputEvent *p_event) {
     auto e = dynamic_cast<const InputEventMouseButton*>(p_event);
     if (e == nullptr) return;
     if (e->get_button_index() != MouseButton::MOUSE_BUTTON_LEFT) return;
-    if (e->is_double_click()) {
-        VisualMovieTab::get_singleton()->get_edit_tween_popup()->_popup(this);
+    if (e->is_double_click()) { double_clicked(); return; }
+    if (e->is_pressed()) {
+        cur_draggable = DragData{this, MIDDLE, (float)get_local_mouse_position().x};
     } else {
-        if (e->is_pressed()) {
-            cur_draggable = DragData{this, MIDDLE, (float)get_local_mouse_position().x};
-        } else {
-            cur_draggable.item = nullptr;
-        }
+        cur_draggable.item = nullptr;
     }
 }
 
@@ -150,6 +149,10 @@ void VMTTween::refresh_position() {
     set_size(Vector2(get_length() * zoom_factor, TWEEN_HEIGHT));
 }
 
+void VMTTween::double_clicked() {
+    VisualMovieTab::get_singleton()->create_edit_tween_popup(this);
+}
+
 int VMTTween::to_row(float p_height) const {
     return (NODE_POS - p_height) / TWEEN_HEIGHT;
 }
@@ -180,6 +183,9 @@ void VMTNode::refresh_position() {
     float zoom_factor = VisualMovieTab::get_singleton()->get_timeline()->get_zoom_factor();
     set_position(Vector2(start_frame * zoom_factor, NODE_POS));
     set_size(Vector2(get_length() * zoom_factor, NODE_HEIGHT));
+}
+
+void VMTNode::double_clicked() {
 }
 
 int VMTNode::to_row(float p_height) const {
@@ -214,6 +220,9 @@ void VMTSound::refresh_position() {
     float zoom_factor = VisualMovieTab::get_singleton()->get_timeline()->get_zoom_factor();
     set_position(Vector2(start_frame * zoom_factor, NODE_HEIGHT + NODE_POS + (row * SOUND_HEIGHT)));
     set_size(Vector2(get_length() * zoom_factor, SOUND_HEIGHT));
+}
+
+void VMTSound::double_clicked() {
 }
 
 int VMTSound::to_row(float p_height) const {

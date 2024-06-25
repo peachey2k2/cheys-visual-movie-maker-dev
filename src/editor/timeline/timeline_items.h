@@ -38,6 +38,7 @@ class VMTTimelineItem : public Button {
         void set_end_frame(int p_end);
         void set_row(int p_row);
         virtual void refresh_position() {};
+        virtual void double_clicked() {};
 
     public:
         VMTTimelineItem();
@@ -79,6 +80,7 @@ class VMTTween : public VMTTimelineItem {
         static void _bind_methods();
 
         void refresh_position() override;
+        void double_clicked() override;
 
     public:
         VMTTween();
@@ -97,6 +99,7 @@ class VMTNode : public VMTTimelineItem {
         static void _bind_methods();
 
         void refresh_position() override;
+        void double_clicked() override;
 
     public:
         VMTNode();
@@ -115,6 +118,7 @@ class VMTSound : public VMTTimelineItem {
         static void _bind_methods();
 
         void refresh_position() override;
+        void double_clicked() override;
 
     public:
         VMTSound();
