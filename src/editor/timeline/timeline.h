@@ -8,6 +8,7 @@
 #include <godot_cpp/classes/h_flow_container.hpp>
 #include <godot_cpp/classes/button.hpp>
 #include <godot_cpp/classes/editor_interface.hpp>
+#include <godot_cpp/classes/h_scroll_bar.hpp>
 
 #include "defines.h"
 
@@ -18,6 +19,7 @@ class VMTTimeline : public Panel {
 
     private:
         Panel *panel;
+        ScrollContainer *scroll;
 
         float zoom_factor = 1.0;
 
@@ -30,11 +32,13 @@ class VMTTimeline : public Panel {
     public:
         VMTTimeline();
         ~VMTTimeline();
-        void _process(float p_delta);
 
+        void _process(float p_delta);
         void _ready() override;
 
         float get_zoom_factor() const { return zoom_factor; }
+
+        Rect2 get_timeline_visible_rect() const;
 
 };
 

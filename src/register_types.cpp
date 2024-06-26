@@ -14,6 +14,7 @@
 #include "editor/preview.h"
 #include "editor/timeline/timeline.h"
 #include "editor/timeline/timeline_items.h"
+#include "editor/timeline/ruler.h"
 
 #include "popups/new_movie.h"
 #include "popups/open.h"
@@ -40,11 +41,12 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level) {
 		ClassDB::register_internal_class<VMTPreview>();
 		ClassDB::register_internal_class<VMTTimeline>();
 
-		// timeline items
+		// timeline objects
 		ClassDB::register_abstract_class<VMTTimelineItem>();
 		ClassDB::register_internal_class<VMTTween>();
 		ClassDB::register_internal_class<VMTNode>();
 		ClassDB::register_internal_class<VMTSound>();
+		ClassDB::register_internal_class<VMTTimelineRuler>();
 
 		// popups for the tab plugin
 		ClassDB::register_internal_class<VMTNewMoviePopup>();

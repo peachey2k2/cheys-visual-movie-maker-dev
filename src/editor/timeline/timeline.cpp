@@ -1,5 +1,6 @@
 #include "editor/timeline/timeline.h"
 #include "editor/timeline/timeline_items.h"
+#include "editor/timeline/ruler.h"
 
 #define OUTER_MARGIN 8
 
@@ -20,7 +21,6 @@ void VMTTimeline::_ready() {
     add_child(margin);
 
     VBoxContainer *vbox = memnew(VBoxContainer);
-    // vbox->set_anchors_and_offsets_preset(Control::PRESET_FULL_RECT);
     margin->add_child(vbox);
 
     HFlowContainer *hotbar = memnew(HFlowContainer);
@@ -32,10 +32,14 @@ void VMTTimeline::_ready() {
     ADD_BUTTON(hotbar, rename, "Rename", "Rename");
     vbox->add_child(hotbar);
 
-    ScrollContainer *scroll = memnew(ScrollContainer);
+    VMTTimelineRuler *ruler = memnew(VMTTimelineRuler);
+    vbox->add_child(ruler);
+
+    scroll = memnew(ScrollContainer);
     scroll->set_v_size_flags(Control::SIZE_EXPAND_FILL);
     scroll->set_horizontal_scroll_mode(ScrollContainer::SCROLL_MODE_SHOW_ALWAYS);
     scroll->set_vertical_scroll_mode(ScrollContainer::SCROLL_MODE_SHOW_ALWAYS);
+    scroll->get_h_scroll_bar()->connect("scrolling", Callable(ruler, "queue_redraw"));
     vbox->add_child(scroll);
 
     panel = memnew(Panel);
@@ -82,6 +86,10 @@ void VMTTimeline::add_tween() {
 }
 
 void VMTTimeline::add_sound() {
+}
+
+Rect2 VMTTimeline::get_timeline_visible_rect() const {
+    return Rect2(scroll->get_h_scroll(), scroll->get_v_scroll(), scroll->get_size().x, scroll->get_size().y);
 }
 
 
