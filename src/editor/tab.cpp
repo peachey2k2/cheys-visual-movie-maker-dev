@@ -109,11 +109,13 @@ void VisualMovieTab::open_movie(const String path) {
 }
 
 TimeSeperated VisualMovieTab::to_time_seperated(int p_frame) {
-    int fps = (int)get_setting("framerate");
+    // int fps = (int)get_setting("framerate");
+    int fps = 60;
     unsigned long int milliseconds = (long int)(1000.0 * p_frame / fps);
     unsigned int seconds = milliseconds / 1000;
     unsigned int minutes = seconds / 60;
     unsigned int hours = minutes / 60;
+    UtilityFunctions::print("Frame: " + String::num(p_frame) + " FPS: " + String::num(fps) + " Time: " + String::num(hours) + ":" + String::num(minutes % 60) + ":" + String::num(seconds % 60) + ":" + String::num(milliseconds % 1000));
     return TimeSeperated{hours, minutes % 60, seconds % 60, (unsigned int)(milliseconds % 1000)};
 }
 

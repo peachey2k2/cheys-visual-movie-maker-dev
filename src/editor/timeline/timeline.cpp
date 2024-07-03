@@ -1,12 +1,14 @@
 #include "editor/timeline/timeline.h"
 #include "editor/timeline/timeline_items.h"
-#include "editor/timeline/ruler.h"
+
+#include <godot_cpp/variant/utility_functions.hpp>
 
 #define OUTER_MARGIN 8
 
 using namespace godot;
 
 void VMTTimeline::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("_on_gui_input"), &VMTTimeline::_on_gui_input);
 }
 
 void VMTTimeline::_ready() {
@@ -32,7 +34,7 @@ void VMTTimeline::_ready() {
     ADD_BUTTON(hotbar, rename, "Rename", "Rename");
     vbox->add_child(hotbar);
 
-    VMTTimelineRuler *ruler = memnew(VMTTimelineRuler);
+    ruler = memnew(VMTTimelineRuler);
     vbox->add_child(ruler);
 
     scroll = memnew(ScrollContainer);
@@ -40,6 +42,7 @@ void VMTTimeline::_ready() {
     scroll->set_horizontal_scroll_mode(ScrollContainer::SCROLL_MODE_SHOW_ALWAYS);
     scroll->set_vertical_scroll_mode(ScrollContainer::SCROLL_MODE_SHOW_ALWAYS);
     scroll->get_h_scroll_bar()->connect("scrolling", Callable(ruler, "queue_redraw"));
+    scroll->connect("gui_input", Callable(this, "_on_gui_input"));
     vbox->add_child(scroll);
 
     panel = memnew(Panel);
@@ -92,6 +95,25 @@ Rect2 VMTTimeline::get_timeline_visible_rect() const {
     return Rect2(scroll->get_h_scroll(), scroll->get_v_scroll(), scroll->get_size().x, scroll->get_size().y);
 }
 
+void VMTTimeline::_on_gui_input(const InputEvent *p_event) {
+    if (Input::get_singleton()->is_key_pressed(KEY_CTRL)) {
+        auto e = dynamic_cast<const InputEventMouseButton*>(p_event);
+        if (e == nullptr) return;
+        if (!e->is_pressed()) return;
+        if (e->get_button_index() == MouseButton::MOUSE_BUTTON_WHEEL_UP) {
+            if (zoom_factor > 1000) return;
+            zoom_factor *= 1 + e->get_factor();
+            queue_redraw();
+            ruler->queue_redraw();
+        } else if (e->get_button_index() == MouseButton::MOUSE_BUTTON_WHEEL_DOWN) {
+            if (zoom_factor < 0.001) return;
+            zoom_factor /= 1 + e->get_factor();
+            queue_redraw();
+            ruler->queue_redraw();
+        }
+    }
+    UtilityFunctions::print("Zoom factor: " + String::num(zoom_factor));
+}
 
 
 
