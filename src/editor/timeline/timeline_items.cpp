@@ -106,8 +106,9 @@ void VMTTimelineItem::set_row(int p_row) {
 void VMTTimelineItem::resize(int p_start, int p_end) {
     if (end_frame < start_frame) return;
     if (start_frame < 0) start_frame = 0;
-    set_start_frame(p_start);
-    set_end_frame(p_end);
+    start_frame = p_start;
+    end_frame = p_end;
+    refresh_position();
 }
 
 void VMTTimelineItem::move(int p_dest_frame, int p_dest_row) {
