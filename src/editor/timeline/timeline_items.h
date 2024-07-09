@@ -10,7 +10,7 @@ namespace godot {
 class VMTTimelineItem : public Button {
     GDCLASS(VMTTimelineItem, Button);
 
-    public: 
+    public:
         enum Direction {
             LEFT,
             RIGHT,
@@ -37,7 +37,6 @@ class VMTTimelineItem : public Button {
         void set_start_frame(int p_start);
         void set_end_frame(int p_end);
         void set_row(int p_row);
-        virtual void refresh_position() {};
         virtual void double_clicked() {};
 
     public:
@@ -59,6 +58,7 @@ class VMTTimelineItem : public Button {
         void _on_gui_input_middle(const InputEvent*);
 
         static DragData cur_draggable;
+        virtual void refresh_position() {};
         virtual int to_row(float p_height) const {return 0;};
 
     public:

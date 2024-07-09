@@ -101,16 +101,25 @@ void VMTTimeline::_on_gui_input(const InputEvent *p_event) {
         if (e == nullptr) return;
         if (!e->is_pressed()) return;
         if (e->get_button_index() == MouseButton::MOUSE_BUTTON_WHEEL_UP) {
-            if (zoom_factor > 1000) return;
+            if (zoom_factor > 50) return;
             zoom_factor *= 1 + e->get_factor();
             queue_redraw();
             ruler->queue_redraw();
         } else if (e->get_button_index() == MouseButton::MOUSE_BUTTON_WHEEL_DOWN) {
-            if (zoom_factor < 0.001) return;
+            if (zoom_factor < 1/50) return;
             zoom_factor /= 1 + e->get_factor();
             queue_redraw();
             ruler->queue_redraw();
         }
+        for (int i = 0; i < panel->get_child_count(); i++) {
+            Object::cast_to<VMTTimelineItem>(panel->get_child(i))->refresh_position();
+        }
+        // hack to overwrite godot's scroll behavior
+        get_tree()->connect(
+            "process_frame",
+            Callable(scroll->get_v_scroll_bar(), "set_value").bind(scroll->get_v_scroll_bar()->get_value()),
+            CONNECT_DEFERRED + CONNECT_ONE_SHOT + CONNECT_REFERENCE_COUNTED
+        );
     }
     UtilityFunctions::print("Zoom factor: " + String::num(zoom_factor));
 }

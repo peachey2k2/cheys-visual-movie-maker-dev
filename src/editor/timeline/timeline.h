@@ -9,7 +9,9 @@
 #include <godot_cpp/classes/button.hpp>
 #include <godot_cpp/classes/editor_interface.hpp>
 #include <godot_cpp/classes/h_scroll_bar.hpp>
+#include <godot_cpp/classes/v_scroll_bar.hpp>
 #include <godot_cpp/classes/input.hpp>
+#include <godot_cpp/classes/scene_tree.hpp>
 
 #include "defines.h"
 #include "editor/timeline/ruler.h"
